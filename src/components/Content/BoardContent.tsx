@@ -6,6 +6,7 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { IconButton } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
+import ListsSection from "./ListsSection";
 
 const BoardContent = () => {
   const [isEditModeOpen, setisEditModeOpen] = useState(true);
@@ -17,7 +18,7 @@ const BoardContent = () => {
   };
 
   const handleSave = () => {
-        //api gelince buraya istek atılıcak
+        //@todo - api gelince buraya istek atılıcak (field gönderilecek)
         setisEditModeOpen(false)
         setField("");
      
@@ -54,11 +55,14 @@ const BoardContent = () => {
         ) : (
           <h2 onClick={() => setisEditModeOpen(true)}>Navbar Title</h2>
         )}
-
         <SettingsIcon />
       </nav>
 
-      <div></div>
+      <section>
+        {/* This component contains our lists belonging to the selected board. */}
+        <ListsSection />
+      </section>
+
     </Container>
   );
 };
