@@ -9,13 +9,7 @@ interface LoginProps {
 const Login: FC<LoginProps> = (props) => {
     const form = useForm()
   return (
-    <Box sx={{
-        width: 300,
-        height: 300,
-        backgroundColor: 'primary.dark',
-      }}
-    >
-      
+    <Box >
       <TextField
         id="username"
         onChange={form.handleChange}

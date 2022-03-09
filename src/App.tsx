@@ -2,15 +2,19 @@ import React, { useState } from "react";
 
 import "./App.css";
 import Auth from "./components/Auth/Auth";
-import Login from "./components/Auth/Login";
+import BoardContent from "./components/Content/BoardContent";
+import BoardSelection from "./components/Content/BoardSelection";
+
 import { AppProvider } from "./context/sample-context";
 
 function App() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
   return (
     <div className="App">
       {isLoggedIn ? (
-        <AppProvider>Content</AppProvider>
+        <AppProvider>
+          <BoardContent />
+        </AppProvider>
       ) : (
         <Auth
           onLogin={() => setIsLoggedIn(true)}
