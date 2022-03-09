@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { FC } from 'react'
 import { Box } from "@mui/system"
 import { Button, TextField, Alert } from "@mui/material"
 import useForm from "../../hooks/useForm"
-
-const Login = () => {
+import { User } from "../../services/odevserver/controllers/auth"
+interface LoginProps {
+  onLogin?: (user: User) => void
+}
+const Login: FC<LoginProps> = (props) => {
     const form = useForm()
   return (
     <Box sx={{
@@ -33,7 +36,7 @@ const Login = () => {
         sx={{ marginY: 1 }}
       />
       <Button
-        
+        // onClick={handleLoginClick}
         fullWidth
         variant="contained"
         sx={{ marginY: 1 }}

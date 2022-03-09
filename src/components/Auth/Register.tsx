@@ -1,9 +1,12 @@
-import React from 'react'
+import React, { FC } from 'react'
 import useForm from '../../hooks/useForm'
 import { Box, Button, TextField } from "@mui/material"
+import { User } from "../../services/odevserver/controllers/auth"
 
-
-const Register = () => {
+interface RegisterProps {
+  onRegister?: (user: User) => void
+}
+const Register: FC<RegisterProps> = (props) => {
     const form = useForm()
   return (
     <Box>
