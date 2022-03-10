@@ -36,7 +36,7 @@ const BoardNav = () => {
         <Button variant="contained" style={{ borderRadius: 10 }}>
           <DashboardIcon /> Boards{" "}
         </Button>
-        {isEditModeOpen ? (
+        {!isEditModeOpen ? (
           <div>
             <TextField
               id="standard-basic"

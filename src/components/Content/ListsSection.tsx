@@ -10,7 +10,7 @@ import ListItem from "./ListItem";
 
 const ListsSection = () => {
   const [isCreateListOpen, setIsCreateListOpen] = useState(false);
-  const [btnDisabled, setBtnDisabled] = useState(true)
+  const [btnDisabled, setBtnDisabled] = useState(true);
   const [listTitle, setListTitle] = useState("");
 
   const handleCreateList = () => {
@@ -21,25 +21,26 @@ const ListsSection = () => {
     //@todo - apiye istek atılıp liste eklenicek ve sayfa render edelicek mantıgıyla hareket ettim
     //state güncellenicek
 
-
-    setBtnDisabled(!false)
+    //@todo - istek yapıldıktan sonra isCreateListOpen false değerine ayarlanmalı
+    setIsCreateListOpen(false);
+    setBtnDisabled(!false);
     setListTitle("");
-  }
+  };
 
   const handleChange = (event: any) => {
     const value = event.currentTarget.value;
-    
+
     //değer varsa butonu aktif et
     // https://stackoverflow.com/questions/52868369/enable-or-disable-a-button-based-on-a-textfield-value-in-react-js
-    setBtnDisabled(!value)
+
+    setBtnDisabled(!value);
     setListTitle(value);
-    
   };
 
   return (
-    <List className="lists-section-list" sx={{display:"flex", gap: 10}}>
+    <List className="lists-section-list" sx={{ display: "flex", gap: 10 }}>
       {/* Create a list card */}
-      <Card sx={{ width: 250 , height: 120 }}>
+      <Card sx={{ width: 200, height: 120 }}>
         <CardContent>
           {!isCreateListOpen ? (
             <div>
@@ -50,8 +51,17 @@ const ListsSection = () => {
             </div>
           ) : (
             <React.Fragment>
-              <TextField id="filled-basic" onChange={handleChange} onClick = {handleAddList} label="Filled" variant="filled" />
-              <Button variant="contained" disabled = {btnDisabled}>
+              <TextField
+                id="filled-basic"
+                onChange={handleChange}
+                label="Filled"
+                variant="filled"
+              />
+              <Button
+                variant="contained"
+                onClick={handleAddList}
+                disabled={btnDisabled}
+              >
                 Add
               </Button>
             </React.Fragment>
@@ -63,12 +73,9 @@ const ListsSection = () => {
       <ListItem />
       <ListItem />
       <ListItem />
-      
-        
+
       {/*@todo- Map yapılıp liste elemanları dönülücek (ListItem Şeklinde)*/}
     </List>
-
-    
   );
 };
 
