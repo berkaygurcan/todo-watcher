@@ -6,6 +6,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
+import ListItem from "./ListItem";
 
 const ListsSection = () => {
   const [isCreateListOpen, setIsCreateListOpen] = useState(false);
@@ -15,6 +16,15 @@ const ListsSection = () => {
   const handleCreateList = () => {
     setIsCreateListOpen(true);
   };
+
+  const handleAddList = () => {
+    //@todo - apiye istek atılıp liste eklenicek ve sayfa render edelicek mantıgıyla hareket ettim
+    //state güncellenicek
+
+
+    setBtnDisabled(!false)
+    setListTitle("");
+  }
 
   const handleChange = (event: any) => {
     const value = event.currentTarget.value;
@@ -27,8 +37,9 @@ const ListsSection = () => {
   };
 
   return (
-    <List>
-      <Card sx={{ width: 250, height: 150 }}>
+    <List className="lists-section-list" sx={{display:"flex", gap: 10}}>
+      {/* Create a list card */}
+      <Card sx={{ width: 250 }}>
         <CardContent>
           {!isCreateListOpen ? (
             <div>
@@ -39,7 +50,7 @@ const ListsSection = () => {
             </div>
           ) : (
             <React.Fragment>
-              <TextField id="filled-basic" onChange={handleChange} label="Filled" variant="filled" />
+              <TextField id="filled-basic" onChange={handleChange} onClick = {handleAddList} label="Filled" variant="filled" />
               <Button variant="contained" disabled = {btnDisabled}>
                 Add
               </Button>
@@ -48,8 +59,16 @@ const ListsSection = () => {
         </CardContent>
       </Card>
 
+      {/* Flex olarak gelecekler */}
+      <ListItem />
+      <ListItem />
+      <ListItem />
+      
+        
       {/*@todo- Map yapılıp liste elemanları dönülücek (ListItem Şeklinde)*/}
     </List>
+
+    
   );
 };
 

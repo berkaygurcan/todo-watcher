@@ -26,7 +26,7 @@ const BoardContent = () => {
 
   return (
     <Container>
-      {/* sonrasında css ayrı bir dosyada verilebilir */}
+      {/* sonrasında css ayrı bir dosyada verilebilir  component yapabilirsin ileride*/}
       <nav
         className="content-nav"
         style={{
