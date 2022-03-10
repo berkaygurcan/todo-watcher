@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
@@ -10,6 +10,11 @@ import { Button, Menu, MenuItem } from "@mui/material";
 import CardList from "./CardList";
 
 const ListItem = () => {
+
+  const [isCreateCardOpen, setIsCreateCardOpen] = useState(false);
+  const handleOpenAddCard = () => {
+    setIsCreateCardOpen(true);
+  };
 
 
   // menu section

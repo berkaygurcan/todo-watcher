@@ -39,7 +39,7 @@ const ListsSection = () => {
   return (
     <List className="lists-section-list" sx={{display:"flex", gap: 10}}>
       {/* Create a list card */}
-      <Card sx={{ width: 250 }}>
+      <Card sx={{ width: 250 , height: 120 }}>
         <CardContent>
           {!isCreateListOpen ? (
             <div>
