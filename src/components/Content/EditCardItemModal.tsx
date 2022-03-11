@@ -12,6 +12,8 @@ import {
   DialogContentText,
   TextField,
 } from "@mui/material";
+import BasicDatePicker from "./BasicDatePicker";
+
 
 const style = {
   position: "absolute" as "absolute",
@@ -33,12 +35,14 @@ export default function BasicModal() {
     
   };
   
+  //dialog section
   const [open, setOpen] = React.useState(true);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   const handleClickOpen = () => {
     setOpen(true);
   };
+  //end dialog section
   return (
     <div>
       <Button variant="outlined" onClick={handleClickOpen}>
@@ -70,10 +74,18 @@ export default function BasicModal() {
             variant="outlined"
           />
 
+          <BasicDatePicker />
+
+          {/*@todo - Conditional rendering olucak label varsa labels gösterilicek */}
+          
+          
+
+
           <Typography variant="h6" component="div">
             <CommentOutlinedIcon /> Comments
           </Typography>
 
+          
           {/* Burası bir div olup içi comment group olabilir */}
           <div
             style={{
