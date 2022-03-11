@@ -8,9 +8,10 @@ import { CardActionArea, Divider } from '@mui/material';
 import InsertCommentIcon from '@mui/icons-material/InsertComment';
 
 const CardListItem = () => {
+
   return (
     <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
+      <CardActionArea >
         <CardContent>
           <Typography  variant="h6" component="div">
             Lizard
@@ -24,7 +25,6 @@ const CardListItem = () => {
           <Typography variant="body2" color="text.secondary">
           <InsertCommentIcon />
           1
-
           </Typography>
         </CardContent>
       </CardActionArea>

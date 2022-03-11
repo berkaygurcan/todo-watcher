@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Container from "@mui/material/Container";
 import ListsSection from "./ListsSection";
 import BoardNav from "./BoardNav";
+import EditCardItemModal from "./EditCardItemModal";
 
 const BoardContent = () => {
  
@@ -15,6 +16,8 @@ const BoardContent = () => {
         {/* This component contains our lists belonging to the selected board. */}
         <ListsSection />
       </section>
+
+      <EditCardItemModal />
 
     </Container>
   );
