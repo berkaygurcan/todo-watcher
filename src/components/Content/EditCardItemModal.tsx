@@ -13,6 +13,8 @@ import {
   TextField,
 } from "@mui/material";
 import BasicDatePicker from "./BasicDatePicker";
+import MultipleSelectChip from "./MultipleSelectChip";
+import CheckLists from "./CheckLists";
 
 
 const style = {
@@ -76,11 +78,12 @@ export default function BasicModal() {
 
           <BasicDatePicker />
 
-          {/*@todo - Conditional rendering olucak label varsa labels gösterilicek */}
+          {/*@todo - Conditional rendering olucak label varsa labels gösterilicek <MultipleSelectChip /> çalışmadı düzgün */}
           
+          {true && <CheckLists />}
           
 
-
+          {/* Comments Section */}
           <Typography variant="h6" component="div">
             <CommentOutlinedIcon /> Comments
           </Typography>
@@ -110,7 +113,7 @@ export default function BasicModal() {
             Add
           </Button>
 
-          {/*@todo conditional rendering ile comment geçmişini getirebiliriz */}
+          {/*@todo conditional rendering ile comment geçmişini getirebiliriz / commenti komple dahil edebiliriz bir componente */}
         </DialogContent>
         
       </Dialog>
