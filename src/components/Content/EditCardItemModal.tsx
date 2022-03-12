@@ -15,6 +15,7 @@ import {
 import BasicDatePicker from "./BasicDatePicker";
 import MultipleSelectChip from "./MultipleSelectChip";
 import CheckLists from "./CheckLists";
+import Comments from "./Comments";
 
 
 const style = {
@@ -29,13 +30,7 @@ const style = {
 };
 
 export default function BasicModal() {
-  const [btnDisabled, setBtnDisabled] = useState(true);
-  //@todo buton disable olayına tam karar vermedim olursa handle change eklenecek
-  const handleCommentInputChange = (event: any) => {
-    const value = event.currentTarget.value;
-    setBtnDisabled(!value);
-    
-  };
+  
   
   //dialog section
   const [open, setOpen] = React.useState(true);
@@ -81,39 +76,11 @@ export default function BasicModal() {
           {/*@todo - Conditional rendering olucak label varsa labels gösterilicek <MultipleSelectChip /> çalışmadı düzgün */}
           
           {true && <CheckLists />}
+
+          <Comments />
           
 
-          {/* Comments Section */}
-          <Typography variant="h6" component="div">
-            <CommentOutlinedIcon /> Comments
-          </Typography>
-
           
-          {/* Burası bir div olup içi comment group olabilir */}
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: 10,
-            }}
-          >
-            <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-            <TextField
-              margin="dense"
-              id="comment"
-              label="Add comment"
-              type="text"
-              fullWidth
-              onChange={handleCommentInputChange}
-              variant="outlined"
-            />
-          </div>
-          <Button variant="contained" disabled = {btnDisabled}>
-            Add
-          </Button>
-
-          {/*@todo conditional rendering ile comment geçmişini getirebiliriz / commenti komple dahil edebiliriz bir componente */}
         </DialogContent>
         
       </Dialog>
