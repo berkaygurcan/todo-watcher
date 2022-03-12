@@ -10,6 +10,7 @@ const BoardContent = () => {
   return (
     <Container>
       {/* sonrasında css ayrı bir dosyada verilebilir  component yapabilirsin ileride*/}
+      <h1></h1>
       <BoardNav />
 
       <section>
