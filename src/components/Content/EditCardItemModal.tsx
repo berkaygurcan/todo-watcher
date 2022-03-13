@@ -12,10 +12,9 @@ import {
   DialogContentText,
   TextField,
 } from "@mui/material";
-import BasicDatePicker from "./BasicDatePicker";
-import MultipleSelectChip from "./MultipleSelectChip";
-import CheckLists from "./CheckLists";
+import BasicDatePicker from "./BasicDatePicker";import CheckLists from "./CheckLists";
 import Comments from "./Comments";
+import Tags from "./Tags";
 
 
 const style = {
@@ -74,6 +73,8 @@ export default function BasicModal() {
           <BasicDatePicker />
 
           {/*@todo - Conditional rendering olucak label varsa labels gösterilicek <MultipleSelectChip /> çalışmadı düzgün */}
+
+          {true && <Tags />}
           
           {true && <CheckLists />}
 
