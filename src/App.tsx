@@ -1,27 +1,30 @@
 import React, { useState } from "react";
-
+import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import Auth from "./components/Auth/Auth";
+import Register from "./components/Auth/Register";
+import Login from "./components/Auth/Login";
 import BoardContent from "./components/Content/BoardContent";
 import BoardSelection from "./components/Content/BoardSelection";
-
 import { AppProvider } from "./context/sample-context";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
   return (
-    <div className="App">
-      {isLoggedIn ? (
-        <AppProvider>
-          <BoardContent />
-        </AppProvider>
-      ) : (
-        <Auth
-          onLogin={() => setIsLoggedIn(true)}
-          onRegister={() => setIsLoggedIn(true)}
+    <AppProvider>
+      <Routes>
+        <Route
+          path="/login"
+          element={<Login onLogin={() => setIsLoggedIn(true)} />}
         />
-      )}
-    </div>
+        <Route
+          path="/register"
+          element={<Register onRegister={() => setIsLoggedIn(true)} />}
+        />
+        <Route path="/boards" element={<BoardSelection />} />
+        <Route path="/boardcontent" element={<BoardContent />} />
+        
+      </Routes>
+    </AppProvider>
   );
 }
 

@@ -5,11 +5,14 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import { IconButton } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
+import { useNavigate } from 'react-router-dom';
 
 const BoardNav = () => {
 
-    const [isEditModeOpen, setisEditModeOpen] = useState(true);
+    const [isEditModeOpen, setisEditModeOpen] = useState(false);
     const [field, setField] = useState("");
+
+    const navigate = useNavigate()
   
     const handleChange = (event: any) => {
       const value = event.currentTarget.value;
@@ -22,6 +25,10 @@ const BoardNav = () => {
           setField("");
        
     }
+
+    const handleBackToBoards = () => {
+      navigate("/boards")
+    }
   return (
     <nav
         className="content-nav"
@@ -33,10 +40,10 @@ const BoardNav = () => {
           padding: 10,
         }}
       >
-        <Button variant="contained" style={{ borderRadius: 10 }}>
+        <Button variant="contained" onClick={handleBackToBoards} style={{ borderRadius: 10 }}>
           <DashboardIcon /> Boards{" "}
         </Button>
-        {!isEditModeOpen ? (
+        {isEditModeOpen ? (
           <div>
             <TextField
               id="standard-basic"

@@ -1,15 +1,44 @@
-import React, { FC } from 'react'
-import { Box } from "@mui/system"
 import { Button, TextField, Alert } from "@mui/material"
+import { Box } from "@mui/system"
+import React, { FC, useState } from "react"
 import useForm from "../../hooks/useForm"
-import { User } from "../../services/odevserver/controllers/auth"
+import auth, { User } from "../../services/odevserver/controllers/auth"
+import { Link, useNavigate } from "react-router-dom"
+
+
 interface LoginProps {
   onLogin?: (user: User) => void
 }
 const Login: FC<LoginProps> = (props) => {
-    const form = useForm()
+  const navigate = useNavigate()
+  const form = useForm()
+  
+  const [error, setError] = useState<string>()
+  const handleLoginClick = () => {
+    auth
+      .login(form.values)
+      .then(({ data }) => {
+        navigate("/boards")
+      })
+      .catch((error) => {
+        setError(
+          error.response?.data?.issues?.[0]?.message || error.response?.data
+        )
+      })
+  }
+ 
   return (
-    <Box >
+    <Box sx={{ width: "500px", margin: "auto", backgroundColor: "white" }}>
+     
+      {error && (
+        <Alert
+          onClose={() => setError("")}
+          sx={{ marginBottom: 2 }}
+          severity="error"
+        >
+          {error}
+        </Alert>
+      )}
       <TextField
         id="username"
         onChange={form.handleChange}
@@ -30,13 +59,15 @@ const Login: FC<LoginProps> = (props) => {
         sx={{ marginY: 1 }}
       />
       <Button
-        // onClick={handleLoginClick}
+        onClick={handleLoginClick}
         fullWidth
         variant="contained"
         sx={{ marginY: 1 }}
       >
         Giriş Yap
       </Button>
+
+      <Link to="/register">Hala bir hesabınız yok mu?</Link>
     </Box>
   )
 }

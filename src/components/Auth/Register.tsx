@@ -1,16 +1,36 @@
-import React, { FC } from 'react'
-import useForm from '../../hooks/useForm'
-import { Box, Button, TextField } from "@mui/material"
-import { User } from "../../services/odevserver/controllers/auth"
+import { Box, Button, TextField, Alert } from "@mui/material"
+import React, { FC, useState } from "react"
+import useForm from "../../hooks/useForm"
+import auth, { User } from "../../services/odevserver/controllers/auth"
+import { Link } from "react-router-dom"
 
 interface RegisterProps {
   onRegister?: (user: User) => void
 }
 const Register: FC<RegisterProps> = (props) => {
-    const form = useForm()
+  const form = useForm()
+  const [error, setError] = useState<string>()
+  const handleRegisterClick = () => {
+    auth
+      .register(form.values)
+      .then(({ data }) => props.onRegister?.(data))
+      .catch((error) => {
+        setError(
+          error.response.data.issues?.[0]?.message || error.response.data
+        )
+      })
+  }
   return (
-    <Box>
-
+    <Box sx={{width:"500px",margin:"auto", backgroundColor:"white"}}>
+    {error && (
+        <Alert
+          onClose={() => setError("")}
+          sx={{ marginBottom: 2 }}
+          severity="error"
+        >
+          {error}
+        </Alert>
+      )}
       <TextField
         onChange={form.handleChange}
         id="password"
@@ -42,12 +62,14 @@ const Register: FC<RegisterProps> = (props) => {
       />
       <Button
         fullWidth
-       
+        onClick={handleRegisterClick}
         variant="contained"
         sx={{ marginY: 1 }}
       >
         Kayıt Ol
       </Button>
+      <Link to="/login">Bir hesabınız zaten var mı?</Link>
+
     </Box>
   )
 }
