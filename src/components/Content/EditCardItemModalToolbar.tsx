@@ -43,6 +43,7 @@ const EditCardItemModalToolbar = () => {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
+            onClick={handleClick}
           >
             <LabelOutlinedIcon />
           </IconButton>
@@ -108,7 +109,7 @@ const EditCardItemModalToolbar = () => {
           <Popover
             style={{ zIndex: 1400 }}
             id={id}
-            open={open}
+            open={false}
             onClose={handleOnClose}
             anchorEl={anchorEl}
             anchorOrigin={{
@@ -139,6 +140,8 @@ const EditCardItemModalToolbar = () => {
               </List>
             </Box>
           </Popover>
+
+
         </Toolbar>
       </AppBar>
     </Box>
