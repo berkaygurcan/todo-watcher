@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import CardList from "./CardList";
 import ClearIcon from "@mui/icons-material/Clear";
-import EditModeText from "../EditModeText";
+import EditModeText from "./EditModeText";
 
 const ListItemComp = () => {
   //for edit createcard widget
