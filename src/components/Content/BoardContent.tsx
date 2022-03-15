@@ -8,7 +8,7 @@ const BoardContent = () => {
  
 
   return (
-    <Container>
+    <React.Fragment>
       {/* sonrasında css ayrı bir dosyada verilebilir  component yapabilirsin ileride*/}
       
       <BoardNav />
@@ -20,7 +20,7 @@ const BoardContent = () => {
 
       <EditCardItemModal />
 
-    </Container>
+    </React.Fragment>
   );
 };
 

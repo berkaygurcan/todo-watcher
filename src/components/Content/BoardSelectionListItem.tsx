@@ -1,19 +1,29 @@
-import React from "react";
-import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
 
-import InsertChartIcon from "@mui/icons-material/InsertChart";
-import {  useNavigate } from "react-router-dom";
+import InsertChartOutlinedIcon from "@mui/icons-material/InsertChartOutlined";
+import { useNavigate } from "react-router-dom";
 
 const BoardSelectionListItem = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   return (
-    <Card sx={{ display: "flex", width: 200, height: 150 }} onClick = {() => navigate("/boardcontent")}>
+    <Card
+    
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        width: 200,
+        height: 150,
+      }}
+      onClick={() => navigate("/boardcontent")}
+    >
       <CardContent>
-          
-        <h3>Board Title</h3>
-        <InsertChartIcon />
+        <InsertChartOutlinedIcon style={{ fontSize: 50 }} />
+        <Typography variant="h5" gutterBottom component="div">
+          Board Title
+        </Typography>
       </CardContent>
     </Card>
   );

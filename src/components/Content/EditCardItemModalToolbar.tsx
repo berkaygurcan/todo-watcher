@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import CheckBoxOutlinedIcon from "@mui/icons-material/CheckBoxOutlined";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
-import Popper from "@mui/material/Popper";
+
 import {
   Button,
   Checkbox,
@@ -16,6 +16,7 @@ import {
   ListItem,
   Popover,
   TextField,
+  Typography,
 } from "@mui/material";
 const EditCardItemModalToolbar = () => {
   //popper for checklist icon button
@@ -140,8 +141,10 @@ const EditCardItemModalToolbar = () => {
               </List>
             </Box>
           </Popover>
-
-
+          
+          
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
+          <Button color="inherit">X</Button>
         </Toolbar>
       </AppBar>
     </Box>

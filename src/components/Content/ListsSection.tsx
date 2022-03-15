@@ -6,7 +6,9 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
-import ListItem from "./ListItem";
+import ListItemComp from "./ListItemComp";
+import ClearIcon from "@mui/icons-material/Clear";
+import { Box, InputAdornment } from "@mui/material";
 
 const ListsSection = () => {
   const [isCreateListOpen, setIsCreateListOpen] = useState(false);
@@ -38,24 +40,45 @@ const ListsSection = () => {
   };
 
   return (
-    <List className="lists-section-list" sx={{ display: "flex", gap: 10 }}>
-      {/* Create a list card */}
-      <Card sx={{ width: 200, height: 120 }}>
+    <List
+      className="lists-section-list"
+      sx={{ display: "flex", gap: 10, m: 3}}
+    >
+      {/* Flex olarak gelecekler */}
+      <ListItemComp />
+      <ListItemComp />
+      <ListItemComp />
+     
+      {/* Create a list card / card üstüne tıklama verince içindeki butana tıklayamıyorum*/}
+      <Card sx={{ minWidth: 200, height: 120 }}>
         <CardContent>
           {!isCreateListOpen ? (
-            <div>
+            <Box>
               <IconButton color="primary" onClick={handleCreateList}>
                 <AddCircleOutlineIcon />
               </IconButton>
               Add a List
-            </div>
+            </Box>
           ) : (
-            <React.Fragment>
+            <Box sx={{ maxWidth: 200}}>
               <TextField
                 id="filled-basic"
                 onChange={handleChange}
                 label="Filled"
                 variant="filled"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => setIsCreateListOpen(false)}
+                        edge="end"
+                        color="primary"
+                      >
+                        <ClearIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
               />
               <Button
                 variant="contained"
@@ -64,15 +87,10 @@ const ListsSection = () => {
               >
                 Add
               </Button>
-            </React.Fragment>
+            </Box >
           )}
         </CardContent>
       </Card>
-
-      {/* Flex olarak gelecekler */}
-      <ListItem />
-      <ListItem />
-      <ListItem />
 
       {/*@todo- Map yapılıp liste elemanları dönülücek (ListItem Şeklinde)*/}
     </List>
