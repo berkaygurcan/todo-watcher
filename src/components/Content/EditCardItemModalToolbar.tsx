@@ -18,6 +18,8 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import ToolbarChecklistPopover from "./ToolbarChecklistPopover";
+import ToolbarLabelsMenuPopover from "./ToolbarLabelsMenuPopover";
 const EditCardItemModalToolbar = () => {
   //popper for checklist icon button
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -70,77 +72,10 @@ const EditCardItemModalToolbar = () => {
           {/*@todo - çarpı butonu eklenip en sağa atılacak en sağa atmayı flexde bulamadım */}
           {/* popper z index vermemizin sebebi modal z indeksi 1300 civarı onun üstünde gözükmesini istediğimiz için */}
           {/* popover checkbox  */}
-          <Popover
-            style={{ zIndex: 1400 }}
-            id={id}
-            open={open}
-            onClose={handleOnClose}
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "center",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "center",
-            }}
-          >
-            <Box
-              sx={{
-                border: 1,
-                p: 1,
-                bgcolor: "background.paper",
-                width: 200,
-              }}
-            >
-              <TextField
-                sx={{ mb: 2 }}
-                size="small"
-                id="checklist-title"
-                label="Checklist Title*"
-                type="text"
-                fullWidth
-                variant="outlined"
-              />
-              <Button variant="contained">Add</Button>
-            </Box>
-          </Popover>
+         <ToolbarChecklistPopover />
 
           {/* popover labels  */}
-          <Popover
-            style={{ zIndex: 1400 }}
-            id={id}
-            open={false}
-            onClose={handleOnClose}
-            anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: "bottom",
-              horizontal: "center",
-            }}
-            transformOrigin={{
-              vertical: "top",
-              horizontal: "center",
-            }}
-          >
-            <Box
-              sx={{
-                border: 1,
-                p: 1,
-                bgcolor: "background.paper",
-                width: 200,
-              }}
-            >
-              <List>
-                <ListItem>
-                  <FormControlLabel
-                    control={<Checkbox defaultChecked />}
-                    label="Label"
-                  ></FormControlLabel>
-                  <LabelOutlinedIcon />
-                </ListItem>
-              </List>
-            </Box>
-          </Popover>
+          <ToolbarLabelsMenuPopover />
           
           
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>

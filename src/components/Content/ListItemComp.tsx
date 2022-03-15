@@ -8,18 +8,22 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Button,
   InputAdornment,
-  ListItem,
   Menu,
   MenuItem,
   TextField,
 } from "@mui/material";
 import CardList from "./CardList";
 import ClearIcon from "@mui/icons-material/Clear";
+import EditModeText from "../EditModeText";
 
 const ListItemComp = () => {
+  //for edit createcard widget
   const [isCreateCardOpen, setIsCreateCardOpen] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [cardTitle, setCardTitle] = useState("");
+
+  //for title editing widget
+  const [isEditModeOpen, setisEditModeOpen] = useState(false);
 
   const handleOpenAddCard = () => {
     setIsCreateCardOpen(true);
@@ -54,7 +58,7 @@ const ListItemComp = () => {
 
   //not - ListItem bir carddan oluşur ve içerisinde card listesi barındırır
   return (
-    <Card sx={{ width: 275,minHeight:500 }}>
+    <Card sx={{ width: 275 }}>
       <CardHeader
         action={
           <IconButton
@@ -67,7 +71,7 @@ const ListItemComp = () => {
             <MoreVertIcon />
           </IconButton>
         }
-        title="List Title"
+        title={isEditModeOpen ? <EditModeText /> : <p>List Title</p>}
       />
 
       <Menu

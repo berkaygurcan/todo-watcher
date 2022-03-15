@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import ListItemComp from "./ListItemComp";
 import ClearIcon from "@mui/icons-material/Clear";
-import { Box, InputAdornment } from "@mui/material";
+import { Box, InputAdornment, Typography } from "@mui/material";
 
 const ListsSection = () => {
   const [isCreateListOpen, setIsCreateListOpen] = useState(false);
@@ -31,7 +31,6 @@ const ListsSection = () => {
 
   const handleChange = (event: any) => {
     const value = event.currentTarget.value;
-
     //değer varsa butonu aktif et
     // https://stackoverflow.com/questions/52868369/enable-or-disable-a-button-based-on-a-textfield-value-in-react-js
 
@@ -42,25 +41,25 @@ const ListsSection = () => {
   return (
     <List
       className="lists-section-list"
-      sx={{ display: "flex", gap: 10, m: 3}}
+      sx={{ display: "flex", gap: 5, m: 2 }}
     >
       {/* Flex olarak gelecekler */}
       <ListItemComp />
       <ListItemComp />
       <ListItemComp />
-     
+
       {/* Create a list card / card üstüne tıklama verince içindeki butana tıklayamıyorum*/}
-      <Card sx={{ minWidth: 200, height: 120 }}>
-        <CardContent>
+      <Card sx={{ minWidth: 235, height: 110}}>
+        <CardContent onClick={handleCreateList}>
           {!isCreateListOpen ? (
-            <Box>
-              <IconButton color="primary" onClick={handleCreateList}>
-                <AddCircleOutlineIcon />
-              </IconButton>
-              Add a List
-            </Box>
+            <Box sx={{textAlign: "center", mt:2,display:"flex", justifyContent:"center"}}>
+              <AddCircleOutlineIcon />
+              <Typography  gutterBottom>
+                Add a list
+              </Typography>
+            </Box >
           ) : (
-            <Box sx={{ maxWidth: 200}}>
+            <Box sx={{ maxWidth: 200 }}>
               <TextField
                 id="filled-basic"
                 onChange={handleChange}
@@ -70,7 +69,10 @@ const ListsSection = () => {
                   endAdornment: (
                     <InputAdornment position="end">
                       <IconButton
-                        onClick={() => setIsCreateListOpen(false)}
+                        onClick={(e) => {
+                          e.stopPropagation(); // event yayılmasını engellemessek card content onclick de çalışacaktır.
+                          setIsCreateListOpen(false);
+                        }}
                         edge="end"
                         color="primary"
                       >
@@ -87,7 +89,7 @@ const ListsSection = () => {
               >
                 Add
               </Button>
-            </Box >
+            </Box>
           )}
         </CardContent>
       </Card>
