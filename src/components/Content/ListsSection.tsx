@@ -44,6 +44,8 @@ const ListsSection = () => {
       sx={{ display: "flex", gap: 5, m: 2 }}
     >
       {/* Flex olarak gelecekler */}
+      
+      
       <ListItemComp />
       <ListItemComp />
       <ListItemComp />
@@ -61,7 +63,7 @@ const ListsSection = () => {
           ) : (
             <Box sx={{ maxWidth: 200 }}>
               <TextField
-                id="filled-basic"
+               
                 onChange={handleChange}
                 label="Filled"
                 variant="filled"

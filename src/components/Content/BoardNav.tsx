@@ -51,7 +51,7 @@ const BoardNav = () => {
             <Card>
               <TextField
                 id="standard-basic"
-                label="Standard"
+                placeholder="add info"
                 color="warning"
                 onChange={handleChange}
                 InputProps={{

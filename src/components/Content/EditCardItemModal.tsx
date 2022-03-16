@@ -28,7 +28,7 @@ const style = {
   p: 4,
 };
 
-export default function BasicModal() {
+export default function EditCardItemModal() {
   
   
   //dialog section

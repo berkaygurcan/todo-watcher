@@ -1,10 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
+import boardSlice from '../features/boardSlice'
 import counterSlice from '../features/counterSlice'
 
 export const store = configureStore({
   reducer: {
     counter: counterSlice,
+    boards: boardSlice
   },
 })
 

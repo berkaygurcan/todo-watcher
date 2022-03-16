@@ -58,7 +58,8 @@ const ListItemComp = () => {
 
   //not - ListItem bir carddan oluşur ve içerisinde card listesi barındırır
   return (
-    <Card sx={{ width: 275 }}>
+    <Card sx={{ width: 275}}>
+  
       <CardHeader
         action={
           <IconButton

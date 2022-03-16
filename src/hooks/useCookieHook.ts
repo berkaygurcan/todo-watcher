@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 
-function useCookieHook(cookieName: string, cookieData: string) {
+function useCookieHook() {
     const [storedValue, setStoredValue] = useState<any>()
     
     const getCookie = (cookieName:string) => {
