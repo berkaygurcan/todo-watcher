@@ -14,10 +14,11 @@ const ToolbarChecklistPopover = () => {
             setAnchorEl(null);
         };
 
-        const open = Boolean(anchorEl);
-        const id = open ? "simple-popper" : undefined;
+        const open = Boolean(anchorEl); //anchor varsa aç
+        const id = open ? "simple-popper" : undefined; //anlamadım
+       
 
-  //popper end
+      //popper end
 
   return (
     <Popover

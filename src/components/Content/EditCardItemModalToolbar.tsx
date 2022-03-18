@@ -20,19 +20,22 @@ import {
 } from "@mui/material";
 import ToolbarChecklistPopover from "./ToolbarChecklistPopover";
 import ToolbarLabelsMenuPopover from "./ToolbarLabelsMenuPopover";
+import { useAppDispatch } from "../../Store/store";
+import { hideEditCardItemModal } from "../../features/modalSlice";
 const EditCardItemModalToolbar = () => {
+  const dispatch = useAppDispatch()
   //popper for checklist icon button
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [anchorElLabel, setAnchorElLabel] = React.useState<null | HTMLElement>(null);
+  const [anchorElCheckList, setAnchorElChecklist] = React.useState<null | HTMLElement>(null);
   
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(anchorEl ? null : event.currentTarget);
-  };
-  const handleOnClose = () => {
-    setAnchorEl(null);
+    //koşula göre popoverların anchor statelerini setlicez
+    if(event.currentTarget.id === "label-icon-button")
+    setAnchorElLabel(anchorElLabel ? null : event.currentTarget);
+    else if (event.currentTarget.id === "checklist-icon-button")
+    setAnchorElChecklist(anchorElCheckList ? null : event.currentTarget);
   };
 
-  const open = Boolean(anchorEl);
-  const id = open ? "simple-popper" : undefined;
 
   //popper end
 
@@ -47,6 +50,7 @@ const EditCardItemModalToolbar = () => {
             aria-label="menu"
             sx={{ mr: 2 }}
             onClick={handleClick}
+            id = "label-icon-button"
           >
             <LabelOutlinedIcon />
           </IconButton>
@@ -57,6 +61,7 @@ const EditCardItemModalToolbar = () => {
             aria-label="menu"
             sx={{ mr: 2 }}
             onClick={handleClick}
+            id = "checklist-icon-button"
           >
             <CheckBoxOutlinedIcon />
           </IconButton>
@@ -75,11 +80,11 @@ const EditCardItemModalToolbar = () => {
          <ToolbarChecklistPopover />
 
           {/* popover labels  */}
-          <ToolbarLabelsMenuPopover />
+          <ToolbarLabelsMenuPopover anchorEl = {anchorElLabel} handleClick = {handleClick}/>
           
           
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
-          <Button color="inherit">X</Button>
+          <Button color="inherit" onClick={() => dispatch(hideEditCardItemModal())}>X</Button>
         </Toolbar>
       </AppBar>
     </Box>

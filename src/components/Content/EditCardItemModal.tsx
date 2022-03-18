@@ -15,6 +15,8 @@ import {
 import BasicDatePicker from "./BasicDatePicker";import CheckLists from "./CheckLists";
 import Comments from "./Comments";
 import Tags from "./Tags";
+import { useAppDispatch, useAppSelector } from "../../Store/store";
+import { hideEditCardItemModal, showEditCardItemModal } from "../../features/modalSlice";
 
 
 const style = {
@@ -30,21 +32,16 @@ const style = {
 
 export default function EditCardItemModal() {
   
+  const modals = useAppSelector(state => state.modals)
+  const dispatch = useAppDispatch()
   
-  //dialog section
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-  //end dialog section
+ 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button variant="outlined" onClick={() => dispatch(showEditCardItemModal())}>
         Open form dialog
       </Button>
-      <Dialog open={open} onClose={handleClose}>
+      <Dialog open={modals.editCardItemModal} onClose={() => dispatch(hideEditCardItemModal())}>
         <EditCardItemModalToolbar />
         <DialogContent>
           <DialogContentText>

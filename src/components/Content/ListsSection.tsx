@@ -41,7 +41,7 @@ const ListsSection = () => {
   return (
     <List
       className="lists-section-list"
-      sx={{ display: "flex", gap: 5, m: 2 }}
+      sx={{ display: "flex", gap: 5, m: 2 ,alignItems: "start"}}
     >
       {/* Flex olarak gelecekler */}
       
