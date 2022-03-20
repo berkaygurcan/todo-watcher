@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Container from "@mui/material/Container";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -7,9 +7,22 @@ import List from "@mui/material/List";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import { useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
+import board from "../../services/odevserver/controllers/board";
+import { set } from "../../features/boardSlice";
+import { useAppDispatch, useAppSelector } from "../../Store/store";
 
 const BoardSelection = () => {
   const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+  const boards = useAppSelector((state) => state.boards)
+
+  useEffect(() => { //kullanıcının boardlarını getirme
+    board.list().then(({ data }) => {
+      dispatch(set(data));
+    });
+  }, []);
+
+  
   return (
     <Container
       sx={{
@@ -19,7 +32,7 @@ const BoardSelection = () => {
         textAlign: "center",
         alignItems: "center",
         justifyContent: "center",
-        p: 20
+        p: 20,
       }}
     >
       <Typography
@@ -30,11 +43,12 @@ const BoardSelection = () => {
       >
         Todo Watcher App
       </Typography>
+      
       <List sx={{ display: "flex", gap: 5 }}>
-        {/* @todo-boardListItemların içine kullanıcı ekleme sembolü ve en altta kullanıcıları görüntüleme kısmı eklenecektir */}
-        <BoardSelectionListItem />
-        <BoardSelectionListItem />
-        <BoardSelectionListItem />
+        {boards.value.map ((board) => (
+          <BoardSelectionListItem board = {board}/>
+        ))}
+       
         {/* Board add card always in the list */}
         <Card
           onClick={() => navigate("/boardcontent")}

@@ -14,11 +14,13 @@ import SaveIcon from "@mui/icons-material/Save";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/system";
+import { useAppSelector } from "../../Store/store";
 
 const BoardNav = () => {
   const [isEditModeOpen, setisEditModeOpen] = useState(false);
   const [field, setField] = useState("");
 
+  const currentBoard = useAppSelector((state) => state.boards.currentBoard)
   const navigate = useNavigate();
 
   const handleChange = (event: any) => {
@@ -75,7 +77,7 @@ const BoardNav = () => {
               style={{ color: "white" }}
               onClick={() => setisEditModeOpen(true)}
             >
-              <VisibilityIcon fontSize="small" /> Navbar Title
+              <VisibilityIcon fontSize="small" /> {currentBoard.title}
             </h2>
           )}
         </Box>

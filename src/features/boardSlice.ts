@@ -1,11 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface State {
-    value: any[]
+    value: any[],
+    currentBoard: any
   }
   
   const initialState: State = {
     value: [],
+    currentBoard : {}
   }
 
 export const categorySlice = createSlice({
@@ -27,10 +29,13 @@ export const categorySlice = createSlice({
             )
             state.value.splice(index,1)
             state.value.push(action.payload) //burada en sona eklemiyor mu update nasıl oluyor, update sor
-        }
+        },
+        setCurrentBoard: (state, action: PayloadAction<any>) => {
+            state.currentBoard = action.payload
+        },
         
     }
 })
 
-export const {set, add, remove, update} = categorySlice.actions
+export const {set, add, remove, update, setCurrentBoard} = categorySlice.actions
 export default categorySlice.reducer

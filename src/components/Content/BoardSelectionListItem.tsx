@@ -3,13 +3,13 @@ import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 
 import InsertChartOutlinedIcon from "@mui/icons-material/InsertChartOutlined";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
-const BoardSelectionListItem = () => {
+const BoardSelectionListItem = ({board} : any) => {
   const navigate = useNavigate();
+ 
   return (
     <Card
-    
       sx={{
         display: "flex",
         justifyContent: "center",
@@ -17,12 +17,12 @@ const BoardSelectionListItem = () => {
         width: 200,
         height: 150,
       }}
-      onClick={() => navigate("/boardcontent")}
+      onClick={() => navigate(`/boardcontent/${board.id}`)}
     >
       <CardContent>
         <InsertChartOutlinedIcon style={{ fontSize: 50 }} />
         <Typography variant="h5" gutterBottom component="div">
-          Board Title
+          {board.title}
         </Typography>
       </CardContent>
     </Card>

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, useParams } from "react-router-dom";
 import "./App.css";
 import Register from "./components/Auth/Register";
 import Login from "./components/Auth/Login";
@@ -9,6 +9,7 @@ import { AppProvider } from "./context/sample-context";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(true);
+
   return (
     <AppProvider>
       <Routes>
@@ -21,7 +22,7 @@ function App() {
           element={<Register onRegister={() => setIsLoggedIn(true)} />}
         />
         <Route path="/boards" element={<BoardSelection />} />
-        <Route path="/boardcontent" element={<BoardContent />} />
+        <Route path="/boardcontent/:id" element={<BoardContent />} />
         
       </Routes>
     </AppProvider>
