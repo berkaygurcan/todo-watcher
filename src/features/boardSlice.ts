@@ -26,7 +26,7 @@ export const categorySlice = createSlice({
                 (item:any) => item.id === action.payload.id
             )
             state.value.splice(index,1)
-            state.value.push(action.payload) //burada en sona eklemiyor mu update nasıl oluyor
+            state.value.push(action.payload) //burada en sona eklemiyor mu update nasıl oluyor, update sor
         }
         
     }

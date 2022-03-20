@@ -9,18 +9,16 @@ import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import { Box } from "@mui/system";
 import React from "react";
 
-const ToolbarLabelsMenuPopover = (porps:any) => {
+const ToolbarLabelsMenuPopover = (props:any) => {
   //popper for checklist icon button
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+  
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(anchorEl ? null : event.currentTarget);
-  };
   const handleOnClose = () => {
-    setAnchorEl(null);
+    props.setAnchorEl(null);
   };
 
-  const open = Boolean(anchorEl);
+
+  const open = Boolean(props.anchorEl);
   const id = open ? "simple-popper" : undefined;
   
 
@@ -33,7 +31,7 @@ const ToolbarLabelsMenuPopover = (porps:any) => {
         id={id}
         open={open}
         onClose={handleOnClose}
-        anchorEl={anchorEl}
+        anchorEl={props.anchorEl}
         anchorOrigin={{
           vertical: "bottom",
           horizontal: "center",

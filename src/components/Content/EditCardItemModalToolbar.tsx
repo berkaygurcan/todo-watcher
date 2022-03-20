@@ -23,19 +23,21 @@ import ToolbarLabelsMenuPopover from "./ToolbarLabelsMenuPopover";
 import { useAppDispatch } from "../../Store/store";
 import { hideEditCardItemModal } from "../../features/modalSlice";
 const EditCardItemModalToolbar = () => {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   //popper for checklist icon button
-  const [anchorElLabel, setAnchorElLabel] = React.useState<null | HTMLElement>(null);
-  const [anchorElCheckList, setAnchorElChecklist] = React.useState<null | HTMLElement>(null);
-  
+  const [anchorElLabel, setAnchorElLabel] = React.useState<null | HTMLElement>(
+    null
+  );
+  const [anchorElCheckList, setAnchorElChecklist] =
+    React.useState<null | HTMLElement>(null);
+
   const handleClick = (event: React.MouseEvent<HTMLElement>) => {
     //koşula göre popoverların anchor statelerini setlicez
-    if(event.currentTarget.id === "label-icon-button")
-    setAnchorElLabel(anchorElLabel ? null : event.currentTarget);
+    if (event.currentTarget.id === "label-icon-button")
+      setAnchorElLabel(anchorElLabel ? null : event.currentTarget);
     else if (event.currentTarget.id === "checklist-icon-button")
-    setAnchorElChecklist(anchorElCheckList ? null : event.currentTarget);
+      setAnchorElChecklist(anchorElCheckList ? null : event.currentTarget);
   };
-
 
   //popper end
 
@@ -50,7 +52,7 @@ const EditCardItemModalToolbar = () => {
             aria-label="menu"
             sx={{ mr: 2 }}
             onClick={handleClick}
-            id = "label-icon-button"
+            id="label-icon-button"
           >
             <LabelOutlinedIcon />
           </IconButton>
@@ -61,7 +63,7 @@ const EditCardItemModalToolbar = () => {
             aria-label="menu"
             sx={{ mr: 2 }}
             onClick={handleClick}
-            id = "checklist-icon-button"
+            id="checklist-icon-button"
           >
             <CheckBoxOutlinedIcon />
           </IconButton>
@@ -77,14 +79,30 @@ const EditCardItemModalToolbar = () => {
           {/*@todo - çarpı butonu eklenip en sağa atılacak en sağa atmayı flexde bulamadım */}
           {/* popper z index vermemizin sebebi modal z indeksi 1300 civarı onun üstünde gözükmesini istediğimiz için */}
           {/* popover checkbox  */}
-         <ToolbarChecklistPopover />
+          <ToolbarChecklistPopover
+            anchorEl={anchorElCheckList}
+            handleClick={handleClick}
+            setAnchorEl={setAnchorElChecklist}
+          />
 
           {/* popover labels  */}
-          <ToolbarLabelsMenuPopover anchorEl = {anchorElLabel} handleClick = {handleClick}/>
-          
-          
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}></Typography>
-          <Button color="inherit" onClick={() => dispatch(hideEditCardItemModal())}>X</Button>
+          <ToolbarLabelsMenuPopover
+            anchorEl={anchorElLabel}
+            handleClick={handleClick}
+            setAnchorEl={setAnchorElLabel}
+          />
+
+          <Typography
+            variant="h6"
+            component="div"
+            sx={{ flexGrow: 1 }}
+          ></Typography>
+          <Button
+            color="inherit"
+            onClick={() => dispatch(hideEditCardItemModal())}
+          >
+            X
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>
