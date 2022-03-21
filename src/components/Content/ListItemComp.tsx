@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardContent from "@mui/material/CardContent";
@@ -15,8 +15,11 @@ import {
 import CardList from "./CardList";
 import ClearIcon from "@mui/icons-material/Clear";
 import EditModeText from "./EditModeText";
+import { deleteList, fetchBoardById } from "../../features/boardSlice";
+import { useAppDispatch, useAppSelector } from "../../Store/store";
+import { List } from "reselect/es/types";
 
-const ListItemComp = () => {
+const ListItemComp = ({ listId,list }: any) => {
   //for edit createcard widget
   const [isCreateCardOpen, setIsCreateCardOpen] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
@@ -25,15 +28,31 @@ const ListItemComp = () => {
   //for title editing widget
   const [isEditModeOpen, setisEditModeOpen] = useState(false);
 
+  const currentBoard = useAppSelector((state) => state.boards.currentBoard);
+  const dispatch = useAppDispatch();
+
   const handleOpenAddCard = () => {
     setIsCreateCardOpen(true);
   };
+
+
 
   // menu section
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
+  };
+
+  const handleClickRemoveList = () => {
+    deleteList(listId).then(() => dispatch(fetchBoardById(currentBoard.id))); //Silme işlemi başarılı tekrar fetch ediyoruz
+   
+    handleClose();
+  };
+  
+  const handleClickRenameList = () => {
+    setisEditModeOpen(true)
+    handleClose();
   };
   const handleClose = () => {
     setAnchorEl(null);
@@ -58,8 +77,7 @@ const ListItemComp = () => {
 
   //not - ListItem bir carddan oluşur ve içerisinde card listesi barındırır
   return (
-    <Card sx={{ width: 275}}>
-  
+    <Card sx={{ width: 275 }}>
       <CardHeader
         action={
           <IconButton
@@ -72,7 +90,7 @@ const ListItemComp = () => {
             <MoreVertIcon />
           </IconButton>
         }
-        title={isEditModeOpen ? <EditModeText /> : <p>List Title</p>}
+        title={isEditModeOpen ? <EditModeText listId = {listId} setisEditModeOpen = {setisEditModeOpen}/> : <p>{list.title}</p>}
       />
 
       <Menu
@@ -85,8 +103,8 @@ const ListItemComp = () => {
         }}
       >
         {/*@todo - Bu fonksiyonların eventleri eklenecek  */}
-        <MenuItem onClick={handleClose}>Remove List</MenuItem>
-        <MenuItem onClick={handleClose}>Rename List</MenuItem>
+        <MenuItem onClick={handleClickRemoveList}>Remove List</MenuItem>
+        <MenuItem onClick={handleClickRenameList}>Rename List</MenuItem>
       </Menu>
 
       <CardContent>

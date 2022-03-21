@@ -8,21 +8,19 @@ import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import { useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
 import board from "../../services/odevserver/controllers/board";
-import { set } from "../../features/boardSlice";
+import { createBoard, fetchBoardsData, set } from "../../features/boardSlice";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
 
 const BoardSelection = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
-  const boards = useAppSelector((state) => state.boards)
+  const boards = useAppSelector((state) => state.boards);
 
-  useEffect(() => { //kullanıcının boardlarını getirme
-    board.list().then(({ data }) => {
-      dispatch(set(data));
-    });
+  useEffect(() => {
+    //kullanıcının boardlarını getirme
+    dispatch(fetchBoardsData());
   }, []);
 
-  
   return (
     <Container
       sx={{
@@ -43,15 +41,18 @@ const BoardSelection = () => {
       >
         Todo Watcher App
       </Typography>
-      
+
       <List sx={{ display: "flex", gap: 5 }}>
-        {boards.value.map ((board) => (
-          <BoardSelectionListItem board = {board}/>
+        {boards.value.map((board) => (
+          <BoardSelectionListItem board={board} />
         ))}
-       
+
         {/* Board add card always in the list */}
         <Card
-          onClick={() => navigate("/boardcontent")}
+          onClick={() => {
+            //create board
+            createBoard().then((data) => navigate(`/boardcontent/${data.id}`)); //bidaha niye async await gibi oldu?
+          }}
           sx={{
             display: "flex",
             width: 200,

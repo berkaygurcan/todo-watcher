@@ -1,19 +1,27 @@
 import { Card, IconButton, InputAdornment, TextField } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import React, { useState } from "react";
+import { useAppDispatch, useAppSelector } from "../../Store/store";
+import { fetchBoardById, updateList } from "../../features/boardSlice";
 
-const EditModeText = () => {
+const EditModeText = ({ listId,setisEditModeOpen }: any) => {
   //for title editing widget
-  const [isEditModeOpen, setisEditModeOpen] = useState(false);
+
   const [listTitle, setListTitle] = useState("");
+
+  const currentBoard = useAppSelector((state) => state.boards.currentBoard);
+  const dispatch = useAppDispatch();
 
   //for edit list title
   const handleSave = (event: any) => {
     //@todo - api gelince buraya istek atılıcak (List title gönderilecek)
     event.stopPropagation();
-    setisEditModeOpen(false);
-
+    updateList(listId, listTitle, currentBoard.id).then(() =>
+      dispatch(fetchBoardById(currentBoard.id))
+    );
+    setisEditModeOpen(false)
     setListTitle("");
+    
   };
   return (
     <Card>

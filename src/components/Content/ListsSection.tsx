@@ -8,21 +8,30 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import ListItemComp from "./ListItemComp";
 import ClearIcon from "@mui/icons-material/Clear";
-import { Box, InputAdornment, Typography } from "@mui/material";
+import { Box, InputAdornment, ListItem, Typography } from "@mui/material";
+import { useAppDispatch, useAppSelector } from "../../Store/store";
+import { createList, fetchBoardById } from "../../features/boardSlice";
 
 const ListsSection = () => {
   const [isCreateListOpen, setIsCreateListOpen] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [listTitle, setListTitle] = useState("");
 
+  const currentBoard = useAppSelector((state) => state.boards.currentBoard); //board üzerinde bütün bilgiler mevcut(lists,cards vb.)
+  const dispatch = useAppDispatch();
+
   const handleCreateList = () => {
     setIsCreateListOpen(true);
   };
 
-  const handleAddList = () => {
+  const handleAddList = (e:any) => {
     //@todo - apiye istek atılıp liste eklenicek ve sayfa render edelicek mantıgıyla hareket ettim
     //state güncellenicek
-
+    e.stopPropagation();
+    createList(listTitle,currentBoard.id).then(
+      () => dispatch(fetchBoardById(currentBoard.id))
+    )
+    
     //@todo - istek yapıldıktan sonra isCreateListOpen false değerine ayarlanmalı
     setIsCreateListOpen(false);
     setBtnDisabled(!false);
@@ -41,29 +50,35 @@ const ListsSection = () => {
   return (
     <List
       className="lists-section-list"
-      sx={{ display: "flex", gap: 5, m: 2 ,alignItems: "start"}}
+      sx={{ display: "flex", gap: 5, m: 2, alignItems: "start" }}
     >
       {/* Flex olarak gelecekler */}
-      
-      
-      <ListItemComp />
-      <ListItemComp />
-      <ListItemComp />
+
+      {currentBoard.lists &&
+        currentBoard.lists.map(
+          (
+            list: any //varsa döndür
+          ) => <ListItemComp listId = {list.id} list = {list}/>
+        )}
 
       {/* Create a list card / card üstüne tıklama verince içindeki butana tıklayamıyorum*/}
-      <Card sx={{ minWidth: 235, height: 110}}>
+      <Card sx={{ minWidth: 235, height: 110 }}>
         <CardContent onClick={handleCreateList}>
           {!isCreateListOpen ? (
-            <Box sx={{textAlign: "center", mt:2,display:"flex", justifyContent:"center"}}>
+            <Box
+              sx={{
+                textAlign: "center",
+                mt: 2,
+                display: "flex",
+                justifyContent: "center",
+              }}
+            >
               <AddCircleOutlineIcon />
-              <Typography  gutterBottom>
-                Add a list
-              </Typography>
-            </Box >
+              <Typography gutterBottom>Add a list</Typography>
+            </Box>
           ) : (
             <Box sx={{ maxWidth: 200 }}>
               <TextField
-               
                 onChange={handleChange}
                 label="Filled"
                 variant="filled"

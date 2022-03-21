@@ -6,7 +6,7 @@ import EditCardItemModal from "./EditCardItemModal";
 import board from "../../services/odevserver/controllers/board";
 import {  useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
-import { setCurrentBoard } from "../../features/boardSlice";
+import { fetchBoardById, } from "../../features/boardSlice";
 
 const BoardContent = () => {
  
@@ -15,9 +15,8 @@ const BoardContent = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    board.getById(Number(id)).then(({data}) => (
-      dispatch(setCurrentBoard(data))
-    ))
+    dispatch(fetchBoardById(Number(id)))
+    
   }, []);
 
   

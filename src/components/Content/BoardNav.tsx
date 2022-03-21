@@ -14,7 +14,8 @@ import SaveIcon from "@mui/icons-material/Save";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/system";
-import { useAppSelector } from "../../Store/store";
+import { useAppDispatch, useAppSelector } from "../../Store/store";
+import { fetchBoardById, updateBoardById } from "../../features/boardSlice";
 
 const BoardNav = () => {
   const [isEditModeOpen, setisEditModeOpen] = useState(false);
@@ -22,14 +23,16 @@ const BoardNav = () => {
 
   const currentBoard = useAppSelector((state) => state.boards.currentBoard)
   const navigate = useNavigate();
-
+  const dispatch = useAppDispatch();
   const handleChange = (event: any) => {
     const value = event.currentTarget.value;
     setField(value);
   };
 
   const handleSave = () => {
-    //@todo - api gelince buraya istek atılıcak (field gönderilecek)
+    
+    dispatch(updateBoardById({id : currentBoard.id,title: field}))
+    dispatch(fetchBoardById(currentBoard.id))
     setisEditModeOpen(false);
     setField("");
   };
