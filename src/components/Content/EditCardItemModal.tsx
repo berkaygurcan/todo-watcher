@@ -38,9 +38,7 @@ export default function EditCardItemModal() {
  
   return (
     <div>
-      <Button variant="outlined" onClick={() => dispatch(showEditCardItemModal())}>
-        Open form dialog
-      </Button>
+     
       <Dialog open={modals.editCardItemModal} onClose={() => dispatch(hideEditCardItemModal())}>
         <EditCardItemModalToolbar />
         <DialogContent>

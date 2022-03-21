@@ -9,10 +9,14 @@ import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
 import AttachmentOutlinedIcon from "@mui/icons-material/AttachmentOutlined";
 import { Box } from "@mui/system";
+import { useAppDispatch } from "../../Store/store";
+import { showEditCardItemModal } from "../../features/modalSlice";
 
-const CardListItem = ({card}:any) => {
+const CardListItem = ({ card }: any) => {
+  const dispatch = useAppDispatch();
   return (
-    <Card sx={{ maxWidth: 345 , marginBottom: 2}}>
+    <Card sx={{ maxWidth: 345, marginBottom: 2 }} onClick={() => dispatch(showEditCardItemModal())} >
+       
       <CardActionArea>
         <CardContent>
           <Typography variant="h6" component="div">
@@ -29,19 +33,17 @@ const CardListItem = ({card}:any) => {
             justifyContent="space-between"
             alignItems="flex-start"
             spacing={2}
-          
           >
-            <Box sx={{mt:2}}>
-              <VisibilityOutlinedIcon sx={{mr: 2}} fontSize="small"/>
+            <Box sx={{ mt: 2 }}>
+              <VisibilityOutlinedIcon sx={{ mr: 2 }} fontSize="small" />
               <InsertDriveFileOutlinedIcon fontSize="small" />
             </Box>
             <Box>
-            <Typography sx={{mt : 2}} variant="body1" color="text.secondary">
-              <AttachmentOutlinedIcon sx={{mr: 2}} fontSize="small"/>
-              <InsertCommentIcon  fontSize="small"/>1
-            </Typography>
+              <Typography sx={{ mt: 2 }} variant="body1" color="text.secondary">
+                <AttachmentOutlinedIcon sx={{ mr: 2 }} fontSize="small" />
+                <InsertCommentIcon fontSize="small" />1
+              </Typography>
             </Box>
-            
           </Stack>
         </CardContent>
       </CardActionArea>

@@ -16,7 +16,11 @@ import {
 import CardList from "./CardList";
 import ClearIcon from "@mui/icons-material/Clear";
 import EditModeText from "./EditModeText";
-import { createCard, deleteList, fetchBoardById } from "../../features/boardSlice";
+import {
+  createCard,
+  deleteList,
+  fetchBoardById,
+} from "../../features/boardSlice";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
 import CardListItem from "./CardListItem";
 import card from "../../services/odevserver/controllers/card";
@@ -62,9 +66,9 @@ const ListItemComp = ({ listId, list }: any) => {
   const handleAddCard = () => {
     //card işlemi yapılıcak ve istek atılıcak
     //state güncellenecek böylece sayfa tekrar oluşturulunca en altta card ekle ve content kısmında cardlarımız görünücek
-    createCard(cardTitle,listId).then(() => (
+    createCard(cardTitle, listId).then(() =>
       dispatch(fetchBoardById(currentBoard.id))
-    ))
+    );
     setIsCreateCardOpen(false);
     setBtnDisabled(!false);
     setCardTitle("");
