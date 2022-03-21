@@ -12,12 +12,17 @@ import {
   DialogContentText,
   TextField,
 } from "@mui/material";
-import BasicDatePicker from "./BasicDatePicker";import CheckLists from "./CheckLists";
+import BasicDatePicker from "./BasicDatePicker";
+import CheckLists from "./CheckLists";
 import Comments from "./Comments";
 import Tags from "./Tags";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
-import { hideEditCardItemModal, showEditCardItemModal } from "../../features/modalSlice";
-
+import {
+  hideEditCardItemModal,
+  showEditCardItemModal,
+} from "../../features/modalSlice";
+import { DatePicker, LocalizationProvider } from "@mui/lab";
+import AdapterDateFns from "@mui/lab/AdapterDateFns";
 
 const style = {
   position: "absolute" as "absolute",
@@ -30,17 +35,19 @@ const style = {
   p: 4,
 };
 
-export default function EditCardItemModal() {
-  
-  const modals = useAppSelector(state => state.modals)
-  const dispatch = useAppDispatch()
-  
- 
+export default function EditCardItemModal({ currentCard }: any) {
+  const [valueDate, setValueDate] = React.useState<Date | null>(null);
+
+  const modals = useAppSelector((state) => state.modals);
+  const dispatch = useAppDispatch();
+
   return (
     <div>
-     
-      <Dialog open={modals.editCardItemModal} onClose={() => dispatch(hideEditCardItemModal())}>
-        <EditCardItemModalToolbar />
+      <Dialog
+        open={modals.editCardItemModal}
+        onClose={() => dispatch(hideEditCardItemModal())}
+      >
+        <EditCardItemModalToolbar currentCard={currentCard} />
         <DialogContent>
           <DialogContentText>
             ACME Frontend Application - Upcoming Features (buradaki bilgiler
@@ -52,6 +59,7 @@ export default function EditCardItemModal() {
             label="Title*"
             type="text"
             fullWidth
+            
             variant="outlined"
           />
           <TextField
@@ -62,23 +70,31 @@ export default function EditCardItemModal() {
             label="Description"
             type="text"
             fullWidth
+            
             variant="outlined"
           />
 
-          <BasicDatePicker />
+          <LocalizationProvider dateAdapter={AdapterDateFns}>
+            <DatePicker
+              label="Date"
+              value={valueDate}
+              onChange={(newValue) => {
+                setValueDate(newValue);
+              }}
+              renderInput={(params) => <TextField {...params} />}
+            />
+          </LocalizationProvider>
+
+          
 
           {/*@todo - Conditional rendering olucak label varsa labels gösterilicek <MultipleSelectChip /> çalışmadı düzgün */}
 
-          {true && <Tags />}
-          
-          {true && <CheckLists />}
+          {currentCard.labels.length > 0 && <Tags />}
+
+          {currentCard.checklists > 0 && <CheckLists />}
 
           <Comments />
-          
-
-          
         </DialogContent>
-        
       </Dialog>
     </div>
   );

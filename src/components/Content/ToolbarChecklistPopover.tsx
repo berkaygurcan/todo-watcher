@@ -9,7 +9,10 @@ const ToolbarChecklistPopover = (props: any) => {
   const handleOnClose = () => {
     props.setAnchorEl(null);
   };
-
+  
+  const handleAddChecklist = () => {
+    console.log("checklist ekleme işlemi yapılacak")
+  }
   const open = Boolean(props.anchorEl); //anchor varsa aç
   const id = open ? "simple-popper" : undefined; //anlamadım
 
@@ -48,7 +51,7 @@ const ToolbarChecklistPopover = (props: any) => {
           fullWidth
           variant="outlined"
         />
-        <Button variant="contained">Add</Button>
+        <Button variant="contained" onClick={handleAddChecklist}>Add</Button>
       </Box>
     </Popover>
   );

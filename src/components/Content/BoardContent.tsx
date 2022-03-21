@@ -4,22 +4,18 @@ import ListsSection from "./ListsSection";
 import BoardNav from "./BoardNav";
 import EditCardItemModal from "./EditCardItemModal";
 import board from "../../services/odevserver/controllers/board";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
-import { fetchBoardById, } from "../../features/boardSlice";
+import { fetchBoardById } from "../../features/boardSlice";
 
 const BoardContent = () => {
- 
   const dispatch = useAppDispatch();
 
   const { id } = useParams();
 
   useEffect(() => {
-    dispatch(fetchBoardById(Number(id)))
-    
+    dispatch(fetchBoardById(Number(id)));
   }, []);
-
-  
 
   return (
     <React.Fragment>
@@ -32,7 +28,7 @@ const BoardContent = () => {
         <ListsSection />
       </section>
 
-      <EditCardItemModal />
+      
     </React.Fragment>
   );
 };

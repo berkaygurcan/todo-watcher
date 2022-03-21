@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import CheckBoxOutlinedIcon from "@mui/icons-material/CheckBoxOutlined";
 import MoreHorizOutlinedIcon from "@mui/icons-material/MoreHorizOutlined";
-
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import {
   Button,
   Checkbox,
@@ -20,10 +20,14 @@ import {
 } from "@mui/material";
 import ToolbarChecklistPopover from "./ToolbarChecklistPopover";
 import ToolbarLabelsMenuPopover from "./ToolbarLabelsMenuPopover";
-import { useAppDispatch } from "../../Store/store";
+import { useAppDispatch, useAppSelector } from "../../Store/store";
 import { hideEditCardItemModal } from "../../features/modalSlice";
-const EditCardItemModalToolbar = () => {
+import { deleteCard, fetchBoardById } from "../../features/boardSlice";
+import { useParams } from "react-router-dom";
+const EditCardItemModalToolbar = ({ currentCard }: any) => {
   const dispatch = useAppDispatch();
+  const currentBoard = useAppSelector((state) => state.boards.currentBoard); //board üzerinde bütün bilgiler mevcut(lists,cards vb.)
+  
   //popper for checklist icon button
   const [anchorElLabel, setAnchorElLabel] = React.useState<null | HTMLElement>(
     null
@@ -37,6 +41,14 @@ const EditCardItemModalToolbar = () => {
       setAnchorElLabel(anchorElLabel ? null : event.currentTarget);
     else if (event.currentTarget.id === "checklist-icon-button")
       setAnchorElChecklist(anchorElCheckList ? null : event.currentTarget);
+  };
+
+  const handleDeleteCard = () => {
+    //sıralı şekilde ilk cardı sileriz daha sonrasında ise ana currentBoard state güncellendikten sonra modal kapatılır
+    deleteCard(currentCard.id).then(() =>
+      dispatch(fetchBoardById(currentBoard.id))
+    );
+    dispatch(hideEditCardItemModal())
   };
 
   //popper end
@@ -73,8 +85,9 @@ const EditCardItemModalToolbar = () => {
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
+            onClick={handleDeleteCard}
           >
-            <MoreHorizOutlinedIcon />
+            <DeleteOutlineOutlinedIcon />
           </IconButton>
           {/*@todo - çarpı butonu eklenip en sağa atılacak en sağa atmayı flexde bulamadım */}
           {/* popper z index vermemizin sebebi modal z indeksi 1300 civarı onun üstünde gözükmesini istediğimiz için */}

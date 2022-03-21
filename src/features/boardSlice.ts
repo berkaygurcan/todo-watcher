@@ -6,11 +6,14 @@ import list from "../services/odevserver/controllers/list";
 export interface State {
   value: any[];
   currentBoard: any;
+  currentCard: any;
+
 }
 
 const initialState: State = {
   value: [],
   currentBoard: {},
+  currentCard: {}
 };
 
 //board functions
@@ -59,6 +62,7 @@ export const deleteList = async (id: number) => {
   return response.data;
 };
 
+
 export const fetchListById = async (id: number) => {
   const response = await list.getById(id);
   return response.data;
@@ -86,10 +90,14 @@ export const deleteCard = async (id: number) => {
   return response.data;
 };
 
-export const fetchCardById = async (id: number) => {
-  const response = await card.getById(id);
-  return response.data;
-};
+export const fetchCardById = createAsyncThunk(
+  "board/fetchCardById",
+  async (id: number) => {
+    const response = await card.getById(id);
+    return response.data;
+  }
+);
+
 
 export const fetchCardsData = async () => {
   const response = await card.list();
@@ -115,7 +123,12 @@ export const categorySlice = createSlice({
 
       .addCase(fetchBoardById.fulfilled, (state, action) => {
         state.currentBoard = action.payload;
-      });
+      })
+
+      .addCase(fetchCardById.fulfilled, (state, action) => {
+        state.currentCard = action.payload;
+      })
+     
   },
 });
 
