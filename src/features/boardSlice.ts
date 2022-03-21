@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import board from "../services/odevserver/controllers/board";
+import card from "../services/odevserver/controllers/card";
 import list from "../services/odevserver/controllers/list";
 
 export interface State {
@@ -69,6 +70,31 @@ export const fetchListsData = async () => {
 };
 
 //card functions
+
+export const createCard = async (title: string, listId: number) => {
+  const response = await card.create({title,listId});
+  return response.data;
+};
+
+export const updateCard = async (id: number,title: string, listId: number) => {
+  const response = await card.update(id,{title,listId});
+  return response.data;
+};
+
+export const deleteCard = async (id: number) => {
+  const response = await card.destroy(id);
+  return response.data;
+};
+
+export const fetchCardById = async (id: number) => {
+  const response = await card.getById(id);
+  return response.data;
+};
+
+export const fetchCardsData = async () => {
+  const response = await card.list();
+  return response.data;
+};
 
 
 //slice

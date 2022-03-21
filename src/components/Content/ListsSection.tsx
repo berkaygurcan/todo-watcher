@@ -111,7 +111,7 @@ const ListsSection = () => {
         </CardContent>
       </Card>
 
-      {/*@todo- Map yapılıp liste elemanları dönülücek (ListItem Şeklinde)*/}
+     
     </List>
   );
 };

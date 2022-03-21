@@ -10,13 +10,13 @@ import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutl
 import AttachmentOutlinedIcon from "@mui/icons-material/AttachmentOutlined";
 import { Box } from "@mui/system";
 
-const CardListItem = () => {
+const CardListItem = ({card}:any) => {
   return (
-    <Card sx={{ maxWidth: 345 }}>
+    <Card sx={{ maxWidth: 345 , marginBottom: 2}}>
       <CardActionArea>
         <CardContent>
           <Typography variant="h6" component="div">
-            Lizard
+            {card.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
             Lorem ipsum dolor sit.
