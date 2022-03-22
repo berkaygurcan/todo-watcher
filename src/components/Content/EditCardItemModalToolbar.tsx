@@ -24,7 +24,7 @@ import { useAppDispatch, useAppSelector } from "../../Store/store";
 import { hideEditCardItemModal } from "../../features/modalSlice";
 import { deleteCard, fetchBoardById } from "../../features/boardSlice";
 import { useParams } from "react-router-dom";
-const EditCardItemModalToolbar = ({ currentCard }: any) => {
+const EditCardItemModalToolbar = ({ currentCard, handleClose}: any) => {
   const dispatch = useAppDispatch();
   const currentBoard = useAppSelector((state) => state.boards.currentBoard); //board üzerinde bütün bilgiler mevcut(lists,cards vb.)
   
@@ -112,7 +112,7 @@ const EditCardItemModalToolbar = ({ currentCard }: any) => {
           ></Typography>
           <Button
             color="inherit"
-            onClick={() => dispatch(hideEditCardItemModal())}
+            onClick={() => (handleClose())}
           >
             X
           </Button>

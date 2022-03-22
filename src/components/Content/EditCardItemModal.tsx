@@ -37,15 +37,17 @@ const style = {
   p: 4,
 };
 
-export default function EditCardItemModal({ currentCard }: any) {
-  console.log(currentCard)
+export default function EditCardItemModal({ currentCard , handleClose , open }: any) {
+ 
   
   const initObject = {
     title: currentCard.title,
     description: currentCard.desc,
     duedate: currentCard.duedate
   };
+
   const [formData, setFormData] = useState(initObject);
+  
 
   const currentBoard = useAppSelector((state) => state.boards.currentBoard);
   const modals = useAppSelector((state) => state.modals);
@@ -70,16 +72,15 @@ export default function EditCardItemModal({ currentCard }: any) {
   return (
     <div>
       <Dialog
-        open={modals.editCardItemModal}
-        onClose={() => dispatch(hideEditCardItemModal())}
+        open={open}
+        onClose={() => handleClose()}
       >
-        <EditCardItemModalToolbar currentCard={currentCard} />
+        <EditCardItemModalToolbar currentCard={currentCard}  handleClose= {handleClose}/>
         <DialogContent>
           <DialogContentText>
             ACME Frontend Application - Upcoming Features (buradaki bilgiler
             state/Apiden gelip güncellenecektir)
           </DialogContentText>
-          <Button onClick={() => handleUpdate()}>Test Button</Button>
 
           <TextField
             margin="dense"
@@ -117,6 +118,8 @@ export default function EditCardItemModal({ currentCard }: any) {
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
+          
+          <Button variant="contained" onClick={() => handleUpdate()}>Test Update Button</Button>
 
           {/*@todo - Conditional rendering olucak label varsa labels gösterilicek <MultipleSelectChip /> çalışmadı düzgün */}
 

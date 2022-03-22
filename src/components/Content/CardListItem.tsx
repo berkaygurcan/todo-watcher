@@ -14,13 +14,20 @@ import { showEditCardItemModal } from "../../features/modalSlice";
 import EditCardItemModal from "./EditCardItemModal";
 
 const CardListItem = ({ card }: any) => {
-  const dispatch = useAppDispatch();
-
+ 
+  const [open, setOpen] = React.useState(false);
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = (value: string) => {
+    setOpen(false);
+    
+  };
   return (
     <React.Fragment>
       <Card
         sx={{ maxWidth: 345, marginBottom: 2 }}
-        onClick={() => dispatch(showEditCardItemModal())}
+        onClick={() => handleClickOpen()}
       >
         <CardActionArea>
           <CardContent>
@@ -57,7 +64,7 @@ const CardListItem = ({ card }: any) => {
           </CardContent>
         </CardActionArea>
       </Card>
-      <EditCardItemModal currentCard={card} />
+      <EditCardItemModal currentCard={card} handleClose = {handleClose} open = {open} />
     </React.Fragment>
   );
 };
