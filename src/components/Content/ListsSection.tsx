@@ -16,7 +16,7 @@ const ListsSection = () => {
   const [isCreateListOpen, setIsCreateListOpen] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [listTitle, setListTitle] = useState("");
-
+  console.log("---list section---")
   const currentBoard = useAppSelector((state) => state.boards.currentBoard); //board üzerinde bütün bilgiler mevcut(lists,cards vb.)
   const dispatch = useAppDispatch();
 
@@ -57,8 +57,9 @@ const ListsSection = () => {
       {currentBoard.lists &&
         currentBoard.lists.map(
           (
+            
             list: any //varsa döndür
-          ) => <ListItemComp listId = {list.id} list = {list}/>
+          ) => <ListItemComp key = {list.id} listId = {list.id} list = {list}/>
         )}
 
       {/* Create a list card / card üstüne tıklama verince içindeki butana tıklayamıyorum*/}

@@ -3,7 +3,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
-import { CardActionArea, Divider, Stack } from "@mui/material";
+import { CardActionArea, Divider, ListItem, Stack } from "@mui/material";
 import InsertCommentIcon from "@mui/icons-material/InsertComment";
 import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
 import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
@@ -15,6 +15,7 @@ import EditCardItemModal from "./EditCardItemModal";
 
 const CardListItem = ({ card }: any) => {
   const dispatch = useAppDispatch();
+
   return (
     <React.Fragment>
       <Card
@@ -56,8 +57,7 @@ const CardListItem = ({ card }: any) => {
           </CardContent>
         </CardActionArea>
       </Card>
-
-      <EditCardItemModal currentCard = {card}/>
+      <EditCardItemModal currentCard={card} />
     </React.Fragment>
   );
 };

@@ -43,8 +43,9 @@ const BoardSelection = () => {
       </Typography>
 
       <List sx={{ display: "flex", gap: 5 }}>
+        
         {boards.value.map((board) => (
-          <BoardSelectionListItem board={board} />
+          <BoardSelectionListItem key = {board.id} board={board} />
         ))}
 
         {/* Board add card always in the list */}

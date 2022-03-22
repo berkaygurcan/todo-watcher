@@ -38,12 +38,12 @@ const style = {
 };
 
 export default function EditCardItemModal({ currentCard }: any) {
-  const [valueDate, setValueDate] = React.useState<Date | null>(null);
-
-  console.log(currentCard);
+  console.log(currentCard)
+  
   const initObject = {
     title: currentCard.title,
     description: currentCard.desc,
+    duedate: currentCard.duedate
   };
   const [formData, setFormData] = useState(initObject);
 
@@ -59,12 +59,12 @@ export default function EditCardItemModal({ currentCard }: any) {
   };
 
   const handleUpdate = () => {
-    console.log(formData);
 
     updateCard(currentCard.id, formData).then(() =>
-      dispatch(fetchBoardById(currentBoard.id))
+      dispatch(fetchBoardById(currentBoard.id)).then(() => {
+      })
     );
-    setFormData(initObject);
+   
   };
 
   return (
@@ -91,6 +91,7 @@ export default function EditCardItemModal({ currentCard }: any) {
             value={formData.title}
             variant="outlined"
             name="title"
+            
           />
           <TextField
             margin="dense"
@@ -109,10 +110,9 @@ export default function EditCardItemModal({ currentCard }: any) {
           <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
               label="Date"
-              value={valueDate}
+              value={formData.duedate}
               onChange={(newValue) => {
-                console.log("dönen deger = ", newValue);
-                // setFormData((prev: any) => ({ ...prev, duedate: newValue}));
+                 setFormData((prev: any) => ({ ...prev, duedate: new Date(newValue).toISOString().slice(0, 10)}));
               }}
               renderInput={(params) => <TextField {...params} />}
             />

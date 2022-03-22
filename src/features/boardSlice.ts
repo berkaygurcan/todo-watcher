@@ -114,6 +114,9 @@ export const categorySlice = createSlice({
     set: (state, action: PayloadAction<any>) => {
       state.value = action.payload;
     },
+    setCurrentBoard: (state, action: PayloadAction<any>) => {
+      state.currentBoard = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
