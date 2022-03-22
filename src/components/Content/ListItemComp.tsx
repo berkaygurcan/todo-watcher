@@ -24,6 +24,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../Store/store";
 import CardListItem from "./CardListItem";
 import card from "../../services/odevserver/controllers/card";
+import EditCardItemModal from "./EditCardItemModal";
 
 const ListItemComp = ({ listId, list }: any) => {
   //for edit createcard widget
@@ -81,6 +82,10 @@ const ListItemComp = ({ listId, list }: any) => {
     setCardTitle(value);
   };
 
+  const getCurrentCardforModal = () => {
+
+  }
+
   //not - ListItem bir carddan oluşur ve içerisinde card listesi barındırır
   return (
     <Card sx={{ width: 275 }}>
@@ -131,6 +136,7 @@ const ListItemComp = ({ listId, list }: any) => {
               card: any //burada tip dönüşümlerini uygula ileride
             ) => (
               <CardListItem card={card} />
+              
             )
           )}
         </List>
@@ -174,7 +180,9 @@ const ListItemComp = ({ listId, list }: any) => {
           </Button>
         </React.Fragment>
       )}
+      
     </Card>
+    
   );
 };
 

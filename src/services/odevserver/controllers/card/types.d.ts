@@ -33,3 +33,4 @@ export interface Card {
 
 
 export type CreateCardRequest = Pick<Card, "title" | "listId">
+export type UpdateCardRequest = Pick<Card, "title" | "listId" | "description" | "duedate" | "order">

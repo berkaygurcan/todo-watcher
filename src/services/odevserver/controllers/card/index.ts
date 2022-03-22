@@ -1,3 +1,3 @@
 export * as default from "./endpoints"
 
-export type { CreateCardRequest ,} from "./types"
+export type { CreateCardRequest , UpdateCardRequest} from "./types"

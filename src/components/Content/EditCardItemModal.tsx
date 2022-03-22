@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -23,6 +23,8 @@ import {
 } from "../../features/modalSlice";
 import { DatePicker, LocalizationProvider } from "@mui/lab";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
+import useForm from "../../hooks/useForm";
+import { fetchBoardById, updateCard } from "../../features/boardSlice";
 
 const style = {
   position: "absolute" as "absolute",
@@ -38,8 +40,32 @@ const style = {
 export default function EditCardItemModal({ currentCard }: any) {
   const [valueDate, setValueDate] = React.useState<Date | null>(null);
 
+  console.log(currentCard);
+  const initObject = {
+    title: currentCard.title,
+    description: currentCard.desc,
+  };
+  const [formData, setFormData] = useState(initObject);
+
+  const currentBoard = useAppSelector((state) => state.boards.currentBoard);
   const modals = useAppSelector((state) => state.modals);
   const dispatch = useAppDispatch();
+
+  const handleChange = (
+    event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+  ) => {
+    const { name, value } = event.currentTarget;
+    setFormData((prev: any) => ({ ...prev, [name]: value }));
+  };
+
+  const handleUpdate = () => {
+    console.log(formData);
+
+    updateCard(currentCard.id, formData).then(() =>
+      dispatch(fetchBoardById(currentBoard.id))
+    );
+    setFormData(initObject);
+  };
 
   return (
     <div>
@@ -53,24 +79,30 @@ export default function EditCardItemModal({ currentCard }: any) {
             ACME Frontend Application - Upcoming Features (buradaki bilgiler
             state/Apiden gelip güncellenecektir)
           </DialogContentText>
+          <Button onClick={() => handleUpdate()}>Test Button</Button>
+
           <TextField
             margin="dense"
             id="title"
             label="Title*"
             type="text"
             fullWidth
-            
+            onChange={handleChange}
+            value={formData.title}
             variant="outlined"
+            name="title"
           />
           <TextField
             margin="dense"
             id="Description"
+            name="description"
             multiline
             rows={3}
             label="Description"
             type="text"
             fullWidth
-            
+            onChange={handleChange}
+            value={formData.description}
             variant="outlined"
           />
 
@@ -79,13 +111,12 @@ export default function EditCardItemModal({ currentCard }: any) {
               label="Date"
               value={valueDate}
               onChange={(newValue) => {
-                setValueDate(newValue);
+                console.log("dönen deger = ", newValue);
+                // setFormData((prev: any) => ({ ...prev, duedate: newValue}));
               }}
               renderInput={(params) => <TextField {...params} />}
             />
           </LocalizationProvider>
-
-          
 
           {/*@todo - Conditional rendering olucak label varsa labels gösterilicek <MultipleSelectChip /> çalışmadı düzgün */}
 

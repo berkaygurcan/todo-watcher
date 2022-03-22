@@ -8,7 +8,7 @@ export const modalSlice = createSlice({
     },
     reducers: {
         showEditCardItemModal: (state) => {
-            console.log("çalıştı reducer")
+           
             state.editCardItemModal = true
         },
         hideEditCardItemModal: (state) => {

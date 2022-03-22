@@ -80,8 +80,8 @@ export const createCard = async (title: string, listId: number) => {
   return response.data;
 };
 
-export const updateCard = async (id: number,title: string, listId: number) => {
-  const response = await card.update(id,{title,listId});
+export const updateCard = async (id: number,formData:any) => {
+  const response = await card.update(id,formData);
   return response.data;
 };
 
