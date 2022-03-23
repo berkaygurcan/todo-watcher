@@ -93,6 +93,7 @@ const EditCardItemModalToolbar = ({ currentCard, handleClose}: any) => {
           {/* popper z index vermemizin sebebi modal z indeksi 1300 civarı onun üstünde gözükmesini istediğimiz için */}
           {/* popover checkbox  */}
           <ToolbarChecklistPopover
+            currentCard = {currentCard} 
             anchorEl={anchorElCheckList}
             handleClick={handleClick}
             setAnchorEl={setAnchorElChecklist}
@@ -100,6 +101,7 @@ const EditCardItemModalToolbar = ({ currentCard, handleClose}: any) => {
 
           {/* popover labels  */}
           <ToolbarLabelsMenuPopover
+            currentCard = {currentCard}
             anchorEl={anchorElLabel}
             handleClick={handleClick}
             setAnchorEl={setAnchorElLabel}

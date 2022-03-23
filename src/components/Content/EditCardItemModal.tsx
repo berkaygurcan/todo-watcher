@@ -121,9 +121,9 @@ export default function EditCardItemModal({ currentCard , handleClose , open }: 
           
           <Button variant="contained" onClick={() => handleUpdate()}>Test Update Button</Button>
 
-          {/*@todo - Conditional rendering olucak label varsa labels gösterilicek <MultipleSelectChip /> çalışmadı düzgün */}
+          {/*@todo - Conditional rendering olucak label kısmı sıkıntılı oldugu için şimdi atladım */}
 
-          {<Tags />}
+         
 
           {currentCard.checklists > 0 && <CheckLists />}
 

@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import board from "../services/odevserver/controllers/board";
 import card from "../services/odevserver/controllers/card";
+import cardLabel from "../services/odevserver/controllers/cardLabel";
 import label from "../services/odevserver/controllers/label";
 import { Label } from "../services/odevserver/controllers/label/types";
 import list from "../services/odevserver/controllers/list";
@@ -9,7 +10,7 @@ export interface State {
   value: any[];
   currentBoard: any;
   currentCard: any;
-  serviceLabels: Label[]
+  serviceLabels: Label[];
 
 }
 
@@ -118,6 +119,18 @@ export const fetchServiceLabels = createAsyncThunk(
   }
 );
 
+//card-label functions
+
+export const createCardLabel = async (cardId: number, labelId: number) => {
+  const response = await cardLabel.create({cardId,labelId})
+  return response.data;
+};
+
+
+export const deleteCardLabel = async (id: number) => {
+  const response = await cardLabel.destroy(id);
+  return response.data;
+};
 
 //slice
 
