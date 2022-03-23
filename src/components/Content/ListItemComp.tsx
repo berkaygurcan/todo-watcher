@@ -27,7 +27,7 @@ import CardListItem from "./CardListItem";
 import card from "../../services/odevserver/controllers/card";
 import EditCardItemModal from "./EditCardItemModal";
 
-const ListItemComp = ({ listId, list }: any) => {
+const ListItemComp = ({ list }: any) => {
   //for edit createcard widget
   const [isCreateCardOpen, setIsCreateCardOpen] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
@@ -51,7 +51,7 @@ const ListItemComp = ({ listId, list }: any) => {
   };
 
   const handleClickRemoveList = () => {
-    deleteList(listId).then(() => dispatch(fetchBoardById(currentBoard.id))); //Silme işlemi başarılı tekrar fetch ediyoruz
+    deleteList(list.id).then(() => dispatch(fetchBoardById(currentBoard.id))); //Silme işlemi başarılı tekrar fetch ediyoruz
 
     handleClose();
   };
@@ -68,7 +68,7 @@ const ListItemComp = ({ listId, list }: any) => {
   const handleAddCard = () => {
     //card işlemi yapılıcak ve istek atılıcak
     //state güncellenecek böylece sayfa tekrar oluşturulunca en altta card ekle ve content kısmında cardlarımız görünücek
-    createCard(cardTitle, listId).then(() =>
+    createCard(cardTitle, list.id).then(() =>
       dispatch(fetchBoardById(currentBoard.id))
     );
     setIsCreateCardOpen(false);
@@ -104,7 +104,7 @@ const ListItemComp = ({ listId, list }: any) => {
           title={
             isEditModeOpen ? (
               <EditModeText
-                listId={listId}
+                listId={list.id}
                 setisEditModeOpen={setisEditModeOpen}
               />
             ) : (

@@ -57,7 +57,7 @@ const CardListItem = ({ card }: any) => {
                   color="text.secondary"
                 >
                   <AttachmentOutlinedIcon sx={{ mr: 2 }} fontSize="small" />
-                  <InsertCommentIcon fontSize="small" />1
+                  <InsertCommentIcon fontSize="small" />{card.comments.length}
                 </Typography>
               </Box>
             </Stack>

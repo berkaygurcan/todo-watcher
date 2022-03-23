@@ -59,7 +59,7 @@ const ListsSection = () => {
           (
             
             list: any //varsa döndür
-          ) => <ListItemComp key = {list.id} listId = {list.id} list = {list}/>
+          ) => <ListItemComp key = {list.id}  list = {list}/>
         )}
 
       {/* Create a list card / card üstüne tıklama verince içindeki butana tıklayamıyorum*/}

@@ -7,8 +7,8 @@ import List from "@mui/material/List";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import { useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
-import board from "../../services/odevserver/controllers/board";
-import { createBoard, fetchBoardsData, set } from "../../features/boardSlice";
+
+import { createBoard, fetchBoardsData, fetchServiceLabels, set } from "../../features/boardSlice";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
 
 const BoardSelection = () => {
@@ -20,6 +20,12 @@ const BoardSelection = () => {
     //kullanıcının boardlarını getirme
     dispatch(fetchBoardsData());
   }, []);
+
+  //service tarafından gelen labellar değişmeyecek ondan burada bir kere çeksek yeterli
+  useEffect(() => {
+    dispatch(fetchServiceLabels());
+  }, []);
+
 
   return (
     <Container
