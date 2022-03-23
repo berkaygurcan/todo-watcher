@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import { Box } from "@mui/system";
-import React from "react";
+
 
 const ToolbarLabelsMenuPopover = (props:any) => {
   //popper for checklist icon button

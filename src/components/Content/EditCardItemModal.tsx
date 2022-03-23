@@ -123,7 +123,7 @@ export default function EditCardItemModal({ currentCard , handleClose , open }: 
 
           {/*@todo - Conditional rendering olucak label varsa labels gösterilicek <MultipleSelectChip /> çalışmadı düzgün */}
 
-          {currentCard.labels.length > 0 && <Tags />}
+          {<Tags />}
 
           {currentCard.checklists > 0 && <CheckLists />}
 

@@ -16,7 +16,7 @@ const ListsSection = () => {
   const [isCreateListOpen, setIsCreateListOpen] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [listTitle, setListTitle] = useState("");
-  console.log("---list section---")
+
   const currentBoard = useAppSelector((state) => state.boards.currentBoard); //board üzerinde bütün bilgiler mevcut(lists,cards vb.)
   const dispatch = useAppDispatch();
 
