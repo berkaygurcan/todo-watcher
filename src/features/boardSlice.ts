@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import board from "../services/odevserver/controllers/board";
 import card from "../services/odevserver/controllers/card";
 import cardLabel from "../services/odevserver/controllers/cardLabel";
+import checklist from "../services/odevserver/controllers/checklist";
 import label from "../services/odevserver/controllers/label";
 import { Label } from "../services/odevserver/controllers/label/types";
 import list from "../services/odevserver/controllers/list";
@@ -131,6 +132,24 @@ export const deleteCardLabel = async (id: number) => {
   const response = await cardLabel.destroy(id);
   return response.data;
 };
+
+//checklist functions
+
+export const createChecklist = async (title: string, cardId: number) => {
+  const response = await checklist.create({title,cardId});
+  return response.data;
+};
+
+export const updateChecklist = async (id: number,title:string) => {
+  const response = await checklist.update(id,{title});
+  return response.data;
+};
+
+export const deleteChecklist = async (id: number) => {
+  const response = await checklist.destroy(id);
+  return response.data;
+};
+
 
 //slice
 

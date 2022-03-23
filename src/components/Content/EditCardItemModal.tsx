@@ -123,9 +123,8 @@ export default function EditCardItemModal({ currentCard , handleClose , open }: 
 
           {/*@todo - Conditional rendering olucak label kısmı sıkıntılı oldugu için şimdi atladım */}
 
-         
-
-          {currentCard.checklists > 0 && <CheckLists />}
+        
+          {<CheckLists checklists= {currentCard.checklists}/>}
 
           <Comments />
         </DialogContent>

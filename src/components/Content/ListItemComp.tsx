@@ -9,12 +9,11 @@ import {
   Button,
   InputAdornment,
   List,
-  ListItem,
   Menu,
   MenuItem,
   TextField,
 } from "@mui/material";
-import CardList from "./CardList";
+
 import ClearIcon from "@mui/icons-material/Clear";
 import EditModeText from "./EditModeText";
 import {
@@ -24,8 +23,6 @@ import {
 } from "../../features/boardSlice";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
 import CardListItem from "./CardListItem";
-import card from "../../services/odevserver/controllers/card";
-import EditCardItemModal from "./EditCardItemModal";
 
 const ListItemComp = ({ list }: any) => {
   //for edit createcard widget
@@ -83,104 +80,101 @@ const ListItemComp = ({ list }: any) => {
     setCardTitle(value);
   };
 
-  const getCurrentCardforModal = () => {};
 
   //not - ListItem bir carddan oluşur ve içerisinde card listesi barındırır
   return (
-    
-      <Card sx={{ width: 275 }}>
-        <CardHeader
-          action={
-            <IconButton
-              id="basic-button"
-              aria-controls={open ? "basic-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={open ? "true" : undefined}
-              onClick={handleClick}
-            >
-              <MoreVertIcon />
-            </IconButton>
-          }
-          title={
-            isEditModeOpen ? (
-              <EditModeText
-                listId={list.id}
-                setisEditModeOpen={setisEditModeOpen}
-              />
-            ) : (
-              <p onClick={() => setisEditModeOpen(true)}>{list.title}</p>
-            )
-          }
-        />
-
-        <Menu
-          id="basic-menu"
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
-          }}
-        >
-          {/*@todo - Bu fonksiyonların eventleri eklenecek  */}
-          <MenuItem onClick={handleClickRemoveList}>Remove List</MenuItem>
-          <MenuItem onClick={handleClickRenameList}>Rename List</MenuItem>
-        </Menu>
-
-        <CardContent>
-          {/* Burada Card listeleri olacak her Liste İteminin map işlemi olacak cardlar için */}
-
-          <List>
-            {list.cards.map(
-              (
-                card: any //burada tip dönüşümlerini uygula ileride
-              ) => (
-                <CardListItem key={card.id} card={card} />
-              )
-            )}
-          </List>
-        </CardContent>
-        {/* isCreateCardOpen state değerine göre render edilecek */}
-
-        {!isCreateCardOpen ? (
-          <Button onClick={handleOpenAddCard} fullWidth>
-            <AddIcon /> Add Chart
-          </Button>
-        ) : (
-          <React.Fragment>
-            <TextField
-              fullWidth
-              id="filled-basic"
-              onChange={handleChange}
-              label="Filled"
-              variant="filled"
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      onClick={() => {
-                        setIsCreateCardOpen(false);
-                      }}
-                      edge="end"
-                      color="primary"
-                    >
-                      <ClearIcon />
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
+    <Card sx={{ width: 275 }}>
+      <CardHeader
+        action={
+          <IconButton
+            id="basic-button"
+            aria-controls={open ? "basic-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={open ? "true" : undefined}
+            onClick={handleClick}
+          >
+            <MoreVertIcon />
+          </IconButton>
+        }
+        title={
+          isEditModeOpen ? (
+            <EditModeText
+              listId={list.id}
+              setisEditModeOpen={setisEditModeOpen}
             />
-            <Button
-              variant="contained"
-              onClick={handleAddCard}
-              disabled={btnDisabled}
-            >
-              Add
-            </Button>
-          </React.Fragment>
-        )}
-      </Card>
-   
+          ) : (
+            <p onClick={() => setisEditModeOpen(true)}>{list.title}</p>
+          )
+        }
+      />
+
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        {/*@todo - Bu fonksiyonların eventleri eklenecek  */}
+        <MenuItem onClick={handleClickRemoveList}>Remove List</MenuItem>
+        <MenuItem onClick={handleClickRenameList}>Rename List</MenuItem>
+      </Menu>
+
+      <CardContent>
+        {/* Burada Card listeleri olacak her Liste İteminin map işlemi olacak cardlar için */}
+
+        <List>
+          {list.cards.map(
+            (
+              card: any //burada tip dönüşümlerini uygula ileride
+            ) => (
+              <CardListItem key={card.id} card={card} />
+            )
+          )}
+        </List>
+      </CardContent>
+      {/* isCreateCardOpen state değerine göre render edilecek */}
+
+      {!isCreateCardOpen ? (
+        <Button onClick={handleOpenAddCard} fullWidth>
+          <AddIcon /> Add Chart
+        </Button>
+      ) : (
+        <React.Fragment>
+          <TextField
+            fullWidth
+            id="filled-basic"
+            onChange={handleChange}
+            label="Filled"
+            variant="filled"
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    onClick={() => {
+                      setIsCreateCardOpen(false);
+                    }}
+                    edge="end"
+                    color="primary"
+                  >
+                    <ClearIcon />
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+          />
+          <Button
+            variant="contained"
+            onClick={handleAddCard}
+            disabled={btnDisabled}
+          >
+            Add
+          </Button>
+        </React.Fragment>
+      )}
+    </Card>
   );
 };
 
