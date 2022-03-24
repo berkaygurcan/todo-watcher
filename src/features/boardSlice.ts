@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import board from "../services/odevserver/controllers/board";
+import boardMember from "../services/odevserver/controllers/boardMember";
 import card from "../services/odevserver/controllers/card";
 import cardLabel from "../services/odevserver/controllers/cardLabel";
 import checklist from "../services/odevserver/controllers/checklist";
@@ -178,6 +179,24 @@ export const createComment = async (cardId: number, message: string) => {
 
 export const deleteComment = async (id: number) => {
   const response = await comment.destroy(id);
+  return response.data;
+};
+
+
+//boardMember func
+
+export const createBoardMember = async (boardId: number, username: string) => {
+  const response = await boardMember.create({boardId,username})
+  return response.data;
+};
+
+export const deleteBoardMember = async (id: number) => {
+  const response = await boardMember.destroy(id);
+  return response.data;
+};
+
+export const fetchBoardMemberListById = async (id: number) => {
+  const response = await boardMember.list(id);
   return response.data;
 };
 

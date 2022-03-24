@@ -43,6 +43,9 @@ const Comments = ({ comments, cardId}: any) => {
     dispatch(fetchBoardById(currentBoard.id))
   );
   }
+
+ const reversedComments = [...comments].sort().reverse() //sorted comments
+ //https://stackoverflow.com/questions/53420055/error-while-sorting-array-of-objects-cannot-assign-to-read-only-property-2-of/53420326
  
   return (
     <Box>
@@ -91,7 +94,7 @@ const Comments = ({ comments, cardId}: any) => {
 
       <List>
         
-        {comments.map((comment: any) => (
+        {reversedComments.map((comment: any) => (
           <ListItem>
             <Avatar
               alt={comment.author.username.toUpperCase()}
