@@ -4,6 +4,7 @@ import card from "../services/odevserver/controllers/card";
 import cardLabel from "../services/odevserver/controllers/cardLabel";
 import checklist from "../services/odevserver/controllers/checklist";
 import checklistItem from "../services/odevserver/controllers/checklistItem";
+import comment from "../services/odevserver/controllers/comment";
 import label from "../services/odevserver/controllers/label";
 import { Label } from "../services/odevserver/controllers/label/types";
 import list from "../services/odevserver/controllers/list";
@@ -167,6 +168,19 @@ export const deleteChecklistItem  = async (id: number) => {
   const response = await checklistItem.destroy(id);
   return response.data;
 };
+
+//comment func
+
+export const createComment = async (cardId: number, message: string) => {
+  const response = await comment.create({cardId,message})
+  return response.data;
+};
+
+export const deleteCommen = async (id: number) => {
+  const response = await comment.destroy(id);
+  return response.data;
+};
+
 
 //slice
 

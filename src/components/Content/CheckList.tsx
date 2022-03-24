@@ -33,9 +33,9 @@ const CheckList = ({ checklist }: any) => {
   const [title, setTitle] = useState(""); //addinput field
   //for title editing widget
   const [isEditModeOpen, setisEditModeOpen] = useState(false);
-  // menu section
   const dispatch = useAppDispatch();
   const currentBoard = useAppSelector((state) => state.boards.currentBoard);
+  // menu section
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -50,15 +50,6 @@ const CheckList = ({ checklist }: any) => {
     handleClose();
   };
 
-  const handleCreateCheckListItem = () => {
-    //@todo checklistitem ekleme isteği gönderilecek
-    setTitle("deneme")
-    createChecklistItem(title, false, checklist.id).then(() =>
-      dispatch(fetchBoardById(currentBoard.id))
-    );
-    
-  };
-
   const handleClickRenameList = () => {
     setisEditModeOpen(true);
     handleClose();
@@ -67,11 +58,18 @@ const CheckList = ({ checklist }: any) => {
     setAnchorEl(null);
   };
   // end menu section
-  
+
+  const handleCreateCheckListItem = () => {
+    
+    setTitle("");
+    createChecklistItem(title, false, checklist.id).then(() =>
+      dispatch(fetchBoardById(currentBoard.id))
+    );
+  };
   //başta progress bar setlensin diye
   useEffect(() => {
-    changeProgressBar()
-  })
+    changeProgressBar();
+  });
 
   const changeProgressBar = () => {
     let progressBarResult = (complatedTaskCount / checklist.items.length) * 100;
@@ -157,6 +155,7 @@ const CheckList = ({ checklist }: any) => {
             label="Add a task"
             onChange={(e: any) => setTitle(e.target.value)}
             type="text"
+            value = {title}
             fullWidth
             variant="outlined"
           />

@@ -6,17 +6,17 @@ import { deleteChecklistItem, fetchBoardById, updateChecklistItem } from "../../
 
 const CheckListItem = ({ checkListItem }: any) => {
   const [checked, setChecked] = useState(checkListItem.isChecked);
-  const [taskTitle, setTaskTitle] = useState(checkListItem.title);
+  const [taskTitle, setTaskTitle] = useState(checkListItem.title); //input state
   const dispatch = useAppDispatch();
   const currentBoard = useAppSelector((state) => state.boards.currentBoard);
 
   const handleChangeTaskTitle = (e: any) => {
-    console.log(e.target.value)
-    setTaskTitle(e.target.value);
     
-    updateChecklistItem(checkListItem.id,taskTitle,!checked).then(() => dispatch(fetchBoardById(currentBoard.id)))
-
+    setTaskTitle(e.target.value);
+    console.log(taskTitle)
+   // updateChecklistItem(checkListItem.id,taskTitle,!checked).then(() => dispatch(fetchBoardById(currentBoard.id)))
   };
+
 
   const handleChangeCheckbox = () => {
     setChecked(!checked);
