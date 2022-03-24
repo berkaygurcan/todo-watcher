@@ -1,7 +1,8 @@
 import {
   Avatar,
   Button,
-  Card,
+
+  IconButton,
   List,
   ListItem,
   Paper,
@@ -12,14 +13,37 @@ import { Box } from "@mui/system";
 import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
 import HistoryIcon from "@mui/icons-material/History";
 import React, { useState } from "react";
+import { createComment, deleteComment, fetchBoardById } from "../../features/boardSlice";
+import { useAppDispatch, useAppSelector } from "../../Store/store";
+import moment from "moment";
+import ClearIcon from "@mui/icons-material/Clear";
 
-const Comments = () => {
+const Comments = ({ comments, cardId}: any) => {
   const [btnDisabled, setBtnDisabled] = useState(true);
-  //@todo buton disable olayına tam karar vermedim olursa handle change eklenecek
+  const [comment, setComment] = useState("");
+
+  const dispatch = useAppDispatch();
+  const currentBoard = useAppSelector((state) => state.boards.currentBoard);
+
   const handleCommentInputChange = (event: any) => {
     const value = event.currentTarget.value;
+    setComment(value);
     setBtnDisabled(!value);
   };
+
+  const handleAddComment = () => {
+    console.log(cardId)
+    //istek atılıcak
+    createComment(cardId, comment).then(() => dispatch(fetchBoardById(currentBoard.id)));
+    setBtnDisabled(false);
+  };
+
+  const handleDeleteComment = (commentId:any) => {
+    deleteComment(commentId).then(() =>
+    dispatch(fetchBoardById(currentBoard.id))
+  );
+  }
+ 
   return (
     <Box>
       {/* Comments Section */}
@@ -43,11 +67,16 @@ const Comments = () => {
           label="Add comment"
           type="text"
           fullWidth
+          value={comment}
           onChange={handleCommentInputChange}
           variant="outlined"
         />
       </div>
-      <Button variant="contained" disabled={btnDisabled}>
+      <Button
+        variant="contained"
+        onClick={handleAddComment}
+        disabled={btnDisabled}
+      >
         Add
       </Button>
 
@@ -61,18 +90,38 @@ const Comments = () => {
       {/* Map ile commentleri döneriz */}
 
       <List>
-        <ListItem>
-          <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
-          <Paper>
-            <Box sx={{ display: "flex", gap: 1 }}>
-              <Typography>Remy Sharp</Typography>
-              <Typography>about 3 hours ago</Typography>
-            </Box>
-            <Typography>
-              We should be able to add date-fns without any problems
-            </Typography>
-          </Paper>
-        </ListItem>
+        
+        {comments.map((comment: any) => (
+          <ListItem>
+            <Avatar
+              alt={comment.author.username.toUpperCase()}
+              src="/static/images/avatar/1.jpg"
+            />
+            <Paper sx={{ p: 1, ml: 2, borderRadius: 4 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 1,
+                  justifyContent: "space-between",
+                }}
+              >
+                <Box sx={{ display: "flex", gap: 1 }}>
+                  <Typography variant="body1" component="div">
+                    {comment.author.username}
+                  </Typography>
+                  <Typography variant="body2" component="div">
+                    {" - " + moment(comment.createdAt).fromNow()}
+                  </Typography>
+                </Box>
+
+                <IconButton onClick={() => handleDeleteComment(comment.id)} size="small" edge="start" color="inherit">
+                  <ClearIcon />
+                </IconButton>
+              </Box>
+              <Typography>{comment.message}</Typography>
+            </Paper>
+          </ListItem>
+        ))}
       </List>
     </Box>
   );

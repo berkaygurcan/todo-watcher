@@ -126,7 +126,7 @@ export default function EditCardItemModal({ currentCard , handleClose , open }: 
         
           {<CheckLists checklists= {currentCard.checklists}/>}
 
-          <Comments />
+          <Comments comments = {currentCard.comments} cardId = {currentCard.id}/>
         </DialogContent>
       </Dialog>
     </div>

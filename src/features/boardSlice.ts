@@ -176,7 +176,7 @@ export const createComment = async (cardId: number, message: string) => {
   return response.data;
 };
 
-export const deleteCommen = async (id: number) => {
+export const deleteComment = async (id: number) => {
   const response = await comment.destroy(id);
   return response.data;
 };

@@ -11,15 +11,18 @@ const CheckListItem = ({ checkListItem }: any) => {
   const currentBoard = useAppSelector((state) => state.boards.currentBoard);
 
   const handleChangeTaskTitle = (e: any) => {
+    console.log("target value = ",e.target.value)
+    console.log("Currenttarget value = ",e.currentTarget.value)
+    setTaskTitle(e.currentTarget.value);
     
-    setTaskTitle(e.target.value);
-    console.log(taskTitle)
-   // updateChecklistItem(checkListItem.id,taskTitle,!checked).then(() => dispatch(fetchBoardById(currentBoard.id)))
+    updateChecklistItem(checkListItem.id,e.currentTarget.value,!checked).then(() => dispatch(fetchBoardById(currentBoard.id)))
   };
+
 
 
   const handleChangeCheckbox = () => {
     setChecked(!checked);
+    
     updateChecklistItem(checkListItem.id,taskTitle,!checked).then(() => dispatch(fetchBoardById(currentBoard.id)))
     
     
