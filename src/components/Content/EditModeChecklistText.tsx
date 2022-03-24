@@ -2,10 +2,13 @@ import { Card, IconButton, InputAdornment, TextField } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
 import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
-import { fetchBoardById, updateList } from "../../features/boardSlice";
+import {
+  fetchBoardById,
+  updateChecklist,
+  updateList,
+} from "../../features/boardSlice";
 
-
-const EditModeChecklistText = ({ setisEditModeOpen }: any) => {
+const EditModeChecklistText = ({ setisEditModeOpen, checklist }: any) => {
   //for title editing widget
 
   const [listTitle, setListTitle] = useState("");
@@ -15,15 +18,14 @@ const EditModeChecklistText = ({ setisEditModeOpen }: any) => {
 
   //for edit list title
   const handleSave = (event: any) => {
-    //@todo - api gelince buraya istek atılıcak (List title gönderilecek)
     event.stopPropagation();
-    //@todo - başka yere istek atılıcak
-  /*  updateList(listId, listTitle, currentBoard.id).then(() =>
+
+    updateChecklist(checklist.id, listTitle).then(() =>
       dispatch(fetchBoardById(currentBoard.id))
-    ); */
-    setisEditModeOpen(false)
+    );
+
+    setisEditModeOpen(false);
     setListTitle("");
-    
   };
   return (
     <Card>
@@ -31,6 +33,7 @@ const EditModeChecklistText = ({ setisEditModeOpen }: any) => {
         id="standard-basic"
         label="Standard"
         color="warning"
+        value={listTitle}
         onChange={(event) => setListTitle(event.currentTarget.value)}
         InputProps={{
           endAdornment: (
@@ -49,6 +52,6 @@ const EditModeChecklistText = ({ setisEditModeOpen }: any) => {
       />
     </Card>
   );
-}
+};
 
-export default EditModeChecklistText
+export default EditModeChecklistText;

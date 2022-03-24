@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Box,
   IconButton,
@@ -12,18 +12,30 @@ import {
   Typography,
 } from "@mui/material";
 import CheckBoxOutlinedIcon from "@mui/icons-material/CheckBoxOutlined";
-import CheckListItemTask from "./CheckListItem";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import EditModeChecklistText from "./EditModeChecklistText";
 import CheckListItem from "./CheckListItem";
+import {
+  createChecklistItem,
+  deleteChecklist,
+  fetchBoardById,
+  updateChecklist,
+} from "../../features/boardSlice";
+import { useAppDispatch, useAppSelector } from "../../Store/store";
 
 const CheckList = ({ checklist }: any) => {
-  const [progress, setProgress] = React.useState(100); //başta tamamen dolu olucak
-
+  let complatedTaskCount = checklist.items.filter(
+    (item: any) => item.isChecked === true
+  ).length;
+  //calculated progressbar
+  const [progress, setProgress] = useState<number>(0); //başta tamamen dolu olucak
+  const [title, setTitle] = useState(""); //addinput field
   //for title editing widget
   const [isEditModeOpen, setisEditModeOpen] = useState(false);
   // menu section
+  const dispatch = useAppDispatch();
+  const currentBoard = useAppSelector((state) => state.boards.currentBoard);
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -32,8 +44,19 @@ const CheckList = ({ checklist }: any) => {
 
   const handleClickRemoveList = () => {
     //@todo - uygun isteği at geçiçi bir satır örnek altta mevcut
-    // deleteList(list.id).then(() => dispatch(fetchBoardById(currentBoard.id))); //Silme işlemi başarılı tekrar fetch ediyoruz
+    deleteChecklist(checklist.id).then(() =>
+      dispatch(fetchBoardById(currentBoard.id))
+    );
     handleClose();
+  };
+
+  const handleCreateCheckListItem = () => {
+    //@todo checklistitem ekleme isteği gönderilecek
+    setTitle("deneme")
+    createChecklistItem(title, false, checklist.id).then(() =>
+      dispatch(fetchBoardById(currentBoard.id))
+    );
+    
   };
 
   const handleClickRenameList = () => {
@@ -44,6 +67,16 @@ const CheckList = ({ checklist }: any) => {
     setAnchorEl(null);
   };
   // end menu section
+  
+  //başta progress bar setlensin diye
+  useEffect(() => {
+    changeProgressBar()
+  })
+
+  const changeProgressBar = () => {
+    let progressBarResult = (complatedTaskCount / checklist.items.length) * 100;
+    setProgress(progressBarResult);
+  };
 
   return (
     <Box>
@@ -60,10 +93,13 @@ const CheckList = ({ checklist }: any) => {
             gutterBottom
             component="div"
           >
-            <CheckBoxOutlinedIcon /> Check List Item Title
+            <CheckBoxOutlinedIcon /> {checklist.title}
           </Typography>
         ) : (
-          <EditModeChecklistText setisEditModeOpen={setisEditModeOpen} />
+          <EditModeChecklistText
+            setisEditModeOpen={setisEditModeOpen}
+            checklist={checklist}
+          />
         )}
 
         <IconButton
@@ -92,7 +128,10 @@ const CheckList = ({ checklist }: any) => {
 
       <Box>
         {/* @todo - Parent box flexbox ile p ve liner yanyana yazıdırılıcak */}
-        <p> 1 / 3 (hard coded) </p>
+        <p>
+          {" "}
+          {complatedTaskCount} / {checklist.items.length}{" "}
+        </p>
         <LinearProgress
           variant="determinate"
           color="secondary"
@@ -104,26 +143,30 @@ const CheckList = ({ checklist }: any) => {
       {/* şimdilik direk map ile CheckBoxListTask itemlarımızı döneceğimizi varsayalım */}
       {/* burada map olacak  */}
       <br></br>
-
       <List>
-       
-      { checklist.items && checklist.items.map((checkListItem : any) => (
-          <CheckListItem checkListItem = {checkListItem}/>
-        ))}
-    
+        {checklist.items &&
+          checklist.items.map((checkListItem: any) => (
+            <CheckListItem checkListItem={checkListItem} />
+          ))}
+
         {/* Listenin her zaman en sonunda task ekleme özelliği olmalı ondan sabit tanımlanır */}
         <ListItem sx={{ ml: 2 }}>
           <TextField
             margin="dense"
             id="title"
             label="Add a task"
+            onChange={(e: any) => setTitle(e.target.value)}
             type="text"
             fullWidth
             variant="outlined"
           />
 
           <IconButton edge="end" title="Delete" aria-label="delete">
-            <AddCircleOutlineIcon color="primary" fontSize="large" />
+            <AddCircleOutlineIcon
+              onClick={handleCreateCheckListItem}
+              color="primary"
+              fontSize="large"
+            />
           </IconButton>
         </ListItem>
       </List>

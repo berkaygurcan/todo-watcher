@@ -3,6 +3,7 @@ import board from "../services/odevserver/controllers/board";
 import card from "../services/odevserver/controllers/card";
 import cardLabel from "../services/odevserver/controllers/cardLabel";
 import checklist from "../services/odevserver/controllers/checklist";
+import checklistItem from "../services/odevserver/controllers/checklistItem";
 import label from "../services/odevserver/controllers/label";
 import { Label } from "../services/odevserver/controllers/label/types";
 import list from "../services/odevserver/controllers/list";
@@ -150,6 +151,22 @@ export const deleteChecklist = async (id: number) => {
   return response.data;
 };
 
+//checklist-item functions
+
+export const createChecklistItem = async (title: string,isChecked:boolean ,checklistId: number) => {
+  const response = await checklistItem.create({checklistId,isChecked,title});
+  return response.data;
+};
+
+export const updateChecklistItem  = async (id: number,title:string,isChecked:boolean) => {
+  const response = await checklistItem.update(id,{title,isChecked});
+  return response.data;
+};
+
+export const deleteChecklistItem  = async (id: number) => {
+  const response = await checklistItem.destroy(id);
+  return response.data;
+};
 
 //slice
 
@@ -173,6 +190,7 @@ export const categorySlice = createSlice({
       .addCase(fetchBoardById.fulfilled, (state, action) => {
         state.currentBoard = action.payload;
       })
+      
 
       .addCase(fetchCardById.fulfilled, (state, action) => {
         state.currentCard = action.payload;

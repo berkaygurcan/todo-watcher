@@ -1,17 +1,24 @@
 import { Button, Popover, TextField } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
+import React, { useState } from "react";
+import { createChecklist, fetchBoardById } from "../../features/boardSlice";
+import { useAppDispatch, useAppSelector } from "../../Store/store";
 
 const ToolbarChecklistPopover = (props: any) => {
   //popper for checklist icon button
-  
+  const [addCheckListTitle,setCheckListTitle] = useState("")
+  const dispatch = useAppDispatch();
+  const currentBoard = useAppSelector((state) => state.boards.currentBoard); 
 
   const handleOnClose = () => {
     props.setAnchorEl(null);
   };
   
   const handleAddChecklist = () => {
-    console.log("checklist ekleme işlemi yapılacak")
+    console.log("checklist ekleme işlemi yapılacak ve boş gönderilme durumunu da kontrol etmek lazım ileride")
+    addCheckListTitle && createChecklist(addCheckListTitle ,props.currentCard.id).then(() => dispatch(fetchBoardById(currentBoard.id))) 
+    setCheckListTitle("")
+    handleOnClose()
   }
   const open = Boolean(props.anchorEl); //anchor varsa aç
   const id = open ? "simple-popper" : undefined; //anlamadım
@@ -48,6 +55,7 @@ const ToolbarChecklistPopover = (props: any) => {
           id="checklist-title"
           label="Checklist Title*"
           type="text"
+          onChange={(e:any) => setCheckListTitle(e.target.value)}
           fullWidth
           variant="outlined"
         />
