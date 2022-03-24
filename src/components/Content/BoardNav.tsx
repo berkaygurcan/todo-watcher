@@ -11,17 +11,21 @@ import {
   Toolbar,
 } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
+import PersonRemoveIcon from "@mui/icons-material/PersonRemove";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { useNavigate } from "react-router-dom";
 import { Box } from "@mui/system";
+import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
 import { fetchBoardById, updateBoardById } from "../../features/boardSlice";
+import BoardMemberDrawer from "./BoardMemberDrawer";
 
 const BoardNav = () => {
   const [isEditModeOpen, setisEditModeOpen] = useState(false);
   const [field, setField] = useState("");
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
-  const currentBoard = useAppSelector((state) => state.boards.currentBoard)
+  const currentBoard = useAppSelector((state) => state.boards.currentBoard);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const handleChange = (event: any) => {
@@ -30,12 +34,14 @@ const BoardNav = () => {
   };
 
   const handleSave = () => {
-    
-    dispatch(updateBoardById({id : currentBoard.id,title: field}))
-    dispatch(fetchBoardById(currentBoard.id))
+    dispatch(updateBoardById({ id: currentBoard.id, title: field }));
+    dispatch(fetchBoardById(currentBoard.id));
     setisEditModeOpen(false);
     setField("");
   };
+
+  const handleCloseDrawer = () => setIsDrawerOpen(false);
+  const handleOpenDrawer = () => setIsDrawerOpen(true);
 
   const handleBackToBoards = () => {
     navigate("/boards");
@@ -85,10 +91,21 @@ const BoardNav = () => {
           )}
         </Box>
         <div />
-        <IconButton size="large" edge="start" color="inherit" aria-label="menu">
-          <SettingsIcon />
+        <IconButton
+          onClick={handleOpenDrawer}
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+        >
+          <RecentActorsIcon />
         </IconButton>
       </Toolbar>
+      {/* Member Board UI Section */}
+      <BoardMemberDrawer
+        handleCloseDrawer={handleCloseDrawer}
+        isDrawerOpen={isDrawerOpen}
+      />
     </AppBar>
   );
 };
