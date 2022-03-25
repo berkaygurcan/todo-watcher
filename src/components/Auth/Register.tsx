@@ -13,7 +13,10 @@ const Register: FC<RegisterProps> = (props) => {
   const handleRegisterClick = () => {
     auth
       .register(form.values)
-      .then(({ data }) => props.onRegister?.(data))
+      .then(({ data }) => {
+        props.onRegister?.(data)
+        localStorage.setItem("token", data.token);
+      })
       .catch((error) => {
         setError(
           error.response.data.issues?.[0]?.message || error.response.data

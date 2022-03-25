@@ -21,6 +21,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 const Comments = ({ comments, cardId}: any) => {
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [comment, setComment] = useState("");
+  
 
   const dispatch = useAppDispatch();
   const currentBoard = useAppSelector((state) => state.boards.currentBoard);
@@ -63,7 +64,7 @@ const Comments = ({ comments, cardId}: any) => {
           gap: 10,
         }}
       >
-        <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
+        <Avatar alt={currentBoard.owner.username.toUpperCase()} src="/static/images/avatar/1.jpg" />
         <TextField
           margin="dense"
           id="comment"

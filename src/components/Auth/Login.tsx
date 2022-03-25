@@ -18,6 +18,7 @@ const Login: FC<LoginProps> = (props) => {
     auth
       .login(form.values)
       .then(({ data }) => {
+        localStorage.setItem("token", data.token);
         navigate("/boards")
       })
       .catch((error) => {
