@@ -9,15 +9,17 @@ import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import { Box } from "@mui/system";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
 import { Label } from "../../services/odevserver/controllers/label/types";
+
+import { useParams } from "react-router-dom";
 import {
   createCardLabel,
   deleteCardLabel,
   fetchBoardById,
 } from "../../features/boardSlice";
-import { useParams } from "react-router-dom";
 
 const ToolbarLabelsMenuPopover = (props: any) => {
   const serviceLabels = useAppSelector((state) => state.boards.serviceLabels); //board üzerinde bütün bilgiler mevcut(lists,cards vb.)
+  const currentBoard = useAppSelector((state) => state.boards.currentBoard);
   const dispatch = useAppDispatch();
   const { boardId } = useParams(); //urlden alıyoruz boardıdmizi
   //popper for checklist icon button
@@ -35,22 +37,22 @@ const ToolbarLabelsMenuPopover = (props: any) => {
     //checked değerine göre istek aticaz idside mevcut artık elimizde
 
     if (event.target.checked) {
-      //true ise ekleme isteği atacağız
+      //seçili hale gelirse ekleme yapılacak
       console.log("ekleyecek");
       createCardLabel(props.currentCard.id, Number(event.target.id)).then(() =>
-        dispatch(fetchBoardById(Number(boardId)))
+        dispatch(fetchBoardById(currentBoard.id))
       );
     } else {
+      //çıkarma işlemi yapılacak
       console.log("silecek");
-      //false ise silme isteği atacağız
-      //ama silmek istediğimiz kayıtın id değeri lazım ondan currentCard içerisinden find ile bulmamız gerekli
-      const deletionCardLabelId = props.currentCard.labels.find(
-        (item: any) => item.title === event.target.name
+
+      let deletedLabel = props.currentCard.labels.find(
+        (label: any) => event.target.id == label.id
       );
-      deletionCardLabelId &&
-        deleteCardLabel(deletionCardLabelId).then(() =>
-          dispatch(fetchBoardById(Number(boardId)))
-        );
+      console.log(deletedLabel.CardLabel.id);
+      deleteCardLabel(Number(deletedLabel.CardLabel.id)).then(() =>
+        dispatch(fetchBoardById(currentBoard.id))
+      );
     }
   };
   return (
@@ -87,6 +89,9 @@ const ToolbarLabelsMenuPopover = (props: any) => {
                     <Checkbox
                       id={item.id.toString()}
                       name={item.title}
+                      checked={props.currentCard.labels.find(
+                        (c: any) => c.id === item.id
+                      ) }
                       onChange={handleCheckboxChange}
                       disableRipple
                     />
