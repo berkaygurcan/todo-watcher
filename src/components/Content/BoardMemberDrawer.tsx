@@ -17,9 +17,12 @@ import { Box } from "@mui/system";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
 import {
   createBoardMember,
+  deleteBoardById,
   deleteBoardMember,
   fetchBoardById,
+  fetchBoardsData,
 } from "../../features/boardSlice";
+import { useNavigate } from "react-router-dom";
 
 const BoardMemberDrawer = ({ handleCloseDrawer, isDrawerOpen }: any) => {
   const [boardMemberName, setBoardMemberName] = useState("");
@@ -27,7 +30,7 @@ const BoardMemberDrawer = ({ handleCloseDrawer, isDrawerOpen }: any) => {
   const currentBoard = useAppSelector((state) => state.boards.currentBoard);
 
   const dispatch = useAppDispatch();
-
+  const navigate = useNavigate()
   const handleChangeBoardMemberName = (event: any) => {
     const value = event.currentTarget.value;
     setBoardMemberName(value);
@@ -47,6 +50,11 @@ const BoardMemberDrawer = ({ handleCloseDrawer, isDrawerOpen }: any) => {
     );
   };
 
+  const handleDeleteCurrentBoard = () => {
+    deleteBoardById(currentBoard.id).then(() => navigate("/boards"))
+    
+  };
+
   return (
     <Drawer
       variant="temporary"
@@ -58,6 +66,19 @@ const BoardMemberDrawer = ({ handleCloseDrawer, isDrawerOpen }: any) => {
       }}
     >
       <Box sx={{ textAlign: "center" }}>
+        <Divider sx={{ mt: 2 }} />
+        <Typography variant="h6">Delete This Board </Typography>
+
+        <IconButton
+          onClick={handleDeleteCurrentBoard}
+          size="large"
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+        >
+          <DeleteForeverOutlinedIcon sx={{ fontSize: 35 }} />
+        </IconButton>
+        <Divider sx={{ mb: 2 }} />
         <Typography variant="h6">Board Members </Typography>
         <List>
           {currentBoard.members &&
@@ -109,13 +130,6 @@ const BoardMemberDrawer = ({ handleCloseDrawer, isDrawerOpen }: any) => {
             ),
           }}
         />
-        <Divider sx={{ mt: 10 }} />
-        <Typography variant="h6">Delete This Board </Typography>
-
-        <IconButton size="large" edge="start" color="inherit" aria-label="menu">
-          <DeleteForeverOutlinedIcon sx={{ fontSize: 50 }} />
-        </IconButton>
-        <Divider />
       </Box>
     </Drawer>
   );

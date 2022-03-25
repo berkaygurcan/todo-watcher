@@ -49,6 +49,19 @@ export const updateBoardById = createAsyncThunk(
   }
 );
 
+export const deleteBoardById2 = createAsyncThunk(
+  "board/updateBoardById",
+  async ({ id }: any) => {
+    const response = await board.destroy(id);
+  }
+);
+
+export const deleteBoardById = async (id: number) => {
+  const response = await board.destroy(id);
+  return response.data;
+};
+
+
 export const createBoard = async () => {
   const response = await board.create({ title: "Untitled Board" });
   return response.data;

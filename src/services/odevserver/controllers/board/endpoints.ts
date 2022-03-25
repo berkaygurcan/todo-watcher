@@ -8,7 +8,7 @@ export const create = (payload: CreateBoardRequest) =>
 export const update = (id: number, payload: CreateBoardRequest) => 
   service.put(`board/${id}`, {title: payload});
 
-export const destroy = (id: number) => service.delete(`category/${id}`);
+export const destroy = (id: number) => service.delete(`board/${id}`);
 
 export const getById = (id: number) =>
   service.get<CreateBoardRequest>(`board/${id}`); 
