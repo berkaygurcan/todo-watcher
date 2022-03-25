@@ -123,7 +123,7 @@ export default function EditCardItemModal({ currentCard , handleClose , open }: 
 
           {/*@todo - Conditional rendering olucak label kısmı sıkıntılı oldugu için şimdi atladım */}
 
-        
+          <Tags currentCardLabels = {currentCard.labels} cardId = {currentCard.id} />
           {<CheckLists checklists= {currentCard.checklists}/>}
 
           <Comments comments = {currentCard.comments} cardId = {currentCard.id}/>

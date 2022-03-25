@@ -6,11 +6,16 @@ import Stack from "@mui/material/Stack";
 import { Box, ListItem, Typography } from "@mui/material";
 import LabelOutlinedIcon from "@mui/icons-material/LabelOutlined";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
-import { purple } from "@mui/material/colors";
+import {
+  createCardLabel,
+  deleteCardLabel,
+  fetchBoardById,
+} from "../../features/boardSlice";
 
-export default function Tags() {
+export default function Tags({ currentCardLabels, cardId }: any) {
   const serviceLabels = useAppSelector((state) => state.boards.serviceLabels); //board üzerinde bütün bilgiler mevcut(lists,cards vb.)
   const dispatch = useAppDispatch();
+  const currentBoard = useAppSelector((state) => state.boards.currentBoard);
 
   const labels = [
     { id: 1, title: "High Priotiry   High Priority", color: "primary" },
@@ -19,10 +24,34 @@ export default function Tags() {
     { id: 4, title: "Feature", color: "error" },
   ];
 
-  const handleAutoComplateChange = (e: any, value: any) => {
- 
+  const handleAutoComplateChange = (
+    event: any,
+    value: any,
+    reason: string,
+    details?: any
+  ) => {
+    if (reason === "selectOption") {
+      const selectedOptionId = details.option.id;
+      //autocomplate value içerisinde seçilmişse eklenmiştir birdaha istek atarsak servis çöker
+      let isExist = currentCardLabels.some((item: any) => {
+        return item.id === selectedOptionId;
+      });
+
+      if (!isExist) {
+        createCardLabel(cardId, selectedOptionId).then(() =>
+          dispatch(fetchBoardById(currentBoard.id))
+        );
+      }
+    } else if (reason === "removeOption") {
+      console.log("removeoption");
+      const deletedOptionId = details.option.CardLabel.id;
+      console.log(deletedOptionId);
+
+      deleteCardLabel(deletedOptionId).then(() =>
+        dispatch(fetchBoardById(currentBoard.id))
+      );
+    }
   };
- 
 
   return (
     <Box sx={{ mt: 2, mb: 2 }}>
@@ -32,7 +61,7 @@ export default function Tags() {
       <Stack spacing={3} sx={{ width: 500 }}>
         <Autocomplete
           multiple
-          id="tags-standard"
+          value={currentCardLabels}
           options={serviceLabels}
           getOptionLabel={(option) => option.title}
           onChange={handleAutoComplateChange}
@@ -43,7 +72,6 @@ export default function Tags() {
                 label={option.title}
                 color={"error"}
                 {...getTagProps({ index })}
-                
               />
             ))
           }

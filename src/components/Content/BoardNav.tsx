@@ -18,6 +18,7 @@ import { Box } from "@mui/system";
 import RecentActorsIcon from "@mui/icons-material/RecentActors";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
 import { fetchBoardById, updateBoardById } from "../../features/boardSlice";
+
 import BoardMemberDrawer from "./BoardMemberDrawer";
 
 const BoardNav = () => {
@@ -90,6 +91,8 @@ const BoardNav = () => {
             </h2>
           )}
         </Box>
+
+        
         <div />
         <IconButton
           onClick={handleOpenDrawer}
