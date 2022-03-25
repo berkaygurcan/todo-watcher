@@ -47,6 +47,11 @@ const BoardNav = () => {
   const handleBackToBoards = () => {
     navigate("/boards");
   };
+
+  const getUserIdFromLS = () => {
+    let userId = Number(localStorage.getItem("userId"));
+    return userId;
+  };
   return (
     <AppBar position="static" sx={{ bgcolor: "#2E3B55" }}>
       <Toolbar sx={{ justifyContent: "space-between" }}>
@@ -92,17 +97,22 @@ const BoardNav = () => {
           )}
         </Box>
 
-        
         <div />
-        <IconButton
-          onClick={handleOpenDrawer}
-          size="large"
-          edge="start"
-          color="inherit"
-          aria-label="menu"
-        >
-          <RecentActorsIcon />
-        </IconButton>
+
+        <div>
+          {/* Bu seçenek sadece board owner tarafından görülecek */}
+          {getUserIdFromLS() === currentBoard.ownerId && (
+            <IconButton
+              onClick={handleOpenDrawer}
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="menu"
+            >
+              <RecentActorsIcon />
+            </IconButton>
+          )}
+        </div>
       </Toolbar>
       {/* Member Board UI Section */}
       <BoardMemberDrawer

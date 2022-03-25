@@ -16,6 +16,7 @@ const Register: FC<RegisterProps> = (props) => {
       .then(({ data }) => {
         props.onRegister?.(data)
         localStorage.setItem("token", data.token);
+        localStorage.setItem("userId", data.id.toString());
       })
       .catch((error) => {
         setError(
