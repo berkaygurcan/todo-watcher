@@ -89,9 +89,9 @@ const ToolbarLabelsMenuPopover = (props: any) => {
                     <Checkbox
                       id={item.id.toString()}
                       name={item.title}
-                      checked={props.currentCard.labels.find(
+                      checked={Boolean(props.currentCard.labels.find(
                         (c: any) => c.id === item.id
-                      ) }
+                      ))}
                       onChange={handleCheckboxChange}
                       disableRipple
                     />

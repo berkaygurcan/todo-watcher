@@ -43,7 +43,7 @@ export default function EditCardItemModal({ currentCard , handleClose , open }: 
   const initObject = {
     title: currentCard.title,
     description: currentCard.desc,
-    duedate: currentCard.duedate
+    duedate: currentCard.duedate || ""
   };
 
   const [formData, setFormData] = useState(initObject);
