@@ -8,18 +8,17 @@ import { useParams } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
 import { fetchBoardById, fetchServiceLabels } from "../../features/boardSlice";
 import { Box } from "@mui/material";
+import { DragDropContext } from "react-beautiful-dnd";
 
 const BoardContent = () => {
   const dispatch = useAppDispatch();
 
   const { id } = useParams();
- 
+
   useEffect(() => {
     dispatch(fetchBoardById(Number(id)));
   }, []);
 
-  
-  
   return (
     <React.Fragment>
       {/* sonrasında css ayrı bir dosyada verilebilir  component yapabilirsin ileride*/}
@@ -28,10 +27,10 @@ const BoardContent = () => {
 
       <Box>
         {/* This component contains our lists belonging to the selected board. */}
-        <ListsSection />
+        
+          <ListsSection />
+        
       </Box>
-
-      
     </React.Fragment>
   );
 };

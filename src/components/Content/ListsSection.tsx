@@ -57,7 +57,6 @@ const ListsSection = () => {
       {currentBoard.lists &&
         currentBoard.lists.map(
           (
-            
             list: any //varsa döndür
           ) => <ListItemComp key = {list.id}  list = {list}/>
         )}

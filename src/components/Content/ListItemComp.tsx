@@ -6,6 +6,7 @@ import IconButton, { IconButtonProps } from "@mui/material/IconButton";
 import AddIcon from "@mui/icons-material/Add";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
+  Box,
   Button,
   InputAdornment,
   List,
@@ -23,6 +24,7 @@ import {
 } from "../../features/boardSlice";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
 import CardListItem from "./CardListItem";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
 const ListItemComp = ({ list }: any) => {
   //for edit createcard widget
@@ -79,7 +81,17 @@ const ListItemComp = ({ list }: any) => {
     setBtnDisabled(!value);
     setCardTitle(value);
   };
+  // const [characters, updateCharacters] = useState();
+  function handleOnDragEnd(result: any) {
+    console.log(result);
+    if (!result.destination) return;
 
+    // const items = Array.from(characters);
+    // const [reorderedItem] = items.splice(result.source.index, 1);
+    // items.splice(result.destination.index, 0, reorderedItem);
+
+    // updateCharacters(items);
+  }
 
   //not - ListItem bir carddan oluşur ve içerisinde card listesi barındırır
   return (
@@ -124,16 +136,32 @@ const ListItemComp = ({ list }: any) => {
 
       <CardContent>
         {/* Burada Card listeleri olacak her Liste İteminin map işlemi olacak cardlar için */}
-
-        <List>
-          {list.cards.map(
-            (
-              card: any //burada tip dönüşümlerini uygula ileride
-            ) => (
-              <CardListItem key={card.id} card={card} />
-            )
-          )}
-        </List>
+        <DragDropContext onDragEnd={handleOnDragEnd}>
+          <Droppable droppableId={list.id.toString()}>
+            {(provided) => (
+              <List {...provided.droppableProps} ref={provided.innerRef}>
+                {list.cards.map((card: any, index: any) => (
+                  <Draggable
+                    key={card.id}
+                    draggableId={card.id.toString()}
+                    index={index}
+                  >
+                    {(provided) => (
+                      <Box
+                        {...provided.draggableProps}
+                        {...provided.dragHandleProps}
+                        ref={provided.innerRef}
+                      >
+                        <CardListItem card={card} />
+                      </Box>
+                    )}
+                  </Draggable>
+                ))}
+                {provided.placeholder}
+              </List>
+            )}
+          </Droppable>
+        </DragDropContext>
       </CardContent>
       {/* isCreateCardOpen state değerine göre render edilecek */}
 
