@@ -11,11 +11,16 @@ import ClearIcon from "@mui/icons-material/Clear";
 import { Box, InputAdornment, ListItem, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
 import { createList, fetchBoardById } from "../../features/boardSlice";
+import { DragDropContext } from "react-beautiful-dnd";
 
 const ListsSection = () => {
   const [isCreateListOpen, setIsCreateListOpen] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [listTitle, setListTitle] = useState("");
+
+  //dnd için stateler
+  const [sourceList, setSourceList] = useState<any>([]);
+  const [destList, setDestList] = useState<any>([]);
 
   const currentBoard = useAppSelector((state) => state.boards.currentBoard); //board üzerinde bütün bilgiler mevcut(lists,cards vb.)
   const dispatch = useAppDispatch();
@@ -24,14 +29,14 @@ const ListsSection = () => {
     setIsCreateListOpen(true);
   };
 
-  const handleAddList = (e:any) => {
+  const handleAddList = (e: any) => {
     //@todo - apiye istek atılıp liste eklenicek ve sayfa render edelicek mantıgıyla hareket ettim
     //state güncellenicek
     e.stopPropagation();
-    createList(listTitle,currentBoard.id).then(
-      () => dispatch(fetchBoardById(currentBoard.id))
-    )
-    
+    createList(listTitle, currentBoard.id).then(() =>
+      dispatch(fetchBoardById(currentBoard.id))
+    );
+
     //@todo - istek yapıldıktan sonra isCreateListOpen false değerine ayarlanmalı
     setIsCreateListOpen(false);
     setBtnDisabled(!false);
@@ -47,71 +52,102 @@ const ListsSection = () => {
     setListTitle(value);
   };
 
+  function handleOnDragEnd(result: any) {
+    console.log(result);
+    if (!result.destination) return;
+    const { source, destination } = result;
+
+    const sourceList = currentBoard.lists.find(
+      (item: any) => item.id == source.droppableId
+    );
+    const destList = currentBoard.lists.find(
+      (item: any) => item.id == destination.droppableId
+    );
+
+    if (source.droppableId !== destination.droppableId) {
+      //farklı liste ise
+      const sourceItems = [...sourceList.cards];
+      const destItems = [...destList.cards];
+      const [reorderedItem] = sourceItems.splice(result.source.index, 1);
+      destItems.splice(result.destination.index, 0, reorderedItem);
+      setSourceList(destItems);
+    } else {
+      //aynı liste ise
+
+      const items = [...sourceList.cards];
+
+      const [reorderedItem] = items.splice(result.source.index, 1);
+      console.log("after slice = ", items);
+      items.splice(result.destination.index, 0, reorderedItem);
+      console.log("after total = ", items);
+      setSourceList(items);
+    }
+  }
+
   return (
     <List
       className="lists-section-list"
       sx={{ display: "flex", gap: 5, m: 2, alignItems: "start" }}
     >
       {/* Flex olarak gelecekler */}
-
-      {currentBoard.lists &&
-        currentBoard.lists.map(
-          (
-            list: any //varsa döndür
-          ) => <ListItemComp key = {list.id}  list = {list}/>
-        )}
-
-      {/* Create a list card / card üstüne tıklama verince içindeki butana tıklayamıyorum*/}
-      <Card sx={{ minWidth: 235, height: 110 }}>
-        <CardContent onClick={handleCreateList}>
-          {!isCreateListOpen ? (
-            <Box
-              sx={{
-                textAlign: "center",
-                mt: 2,
-                display: "flex",
-                justifyContent: "center",
-              }}
-            >
-              <AddCircleOutlineIcon />
-              <Typography gutterBottom>Add a list</Typography>
-            </Box>
-          ) : (
-            <Box sx={{ maxWidth: 200 }}>
-              <TextField
-                onChange={handleChange}
-                label="Filled"
-                variant="filled"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={(e) => {
-                          e.stopPropagation(); // event yayılmasını engellemessek card content onclick de çalışacaktır.
-                          setIsCreateListOpen(false);
-                        }}
-                        edge="end"
-                        color="primary"
-                      >
-                        <ClearIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <Button
-                variant="contained"
-                onClick={handleAddList}
-                disabled={btnDisabled}
-              >
-                Add
-              </Button>
-            </Box>
+      <DragDropContext onDragEnd={handleOnDragEnd}>
+        {currentBoard.lists &&
+          currentBoard.lists.map(
+            (
+              list: any //varsa döndür
+            ) => <ListItemComp key={list.id} list={list} />
           )}
-        </CardContent>
-      </Card>
 
-     
+        {/* Create a list card / card üstüne tıklama verince içindeki butana tıklayamıyorum*/}
+        <Card sx={{ minWidth: 235, height: 110 }}>
+          <CardContent onClick={handleCreateList}>
+            {!isCreateListOpen ? (
+              <Box
+                sx={{
+                  textAlign: "center",
+                  mt: 2,
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <AddCircleOutlineIcon />
+                <Typography gutterBottom>Add a list</Typography>
+              </Box>
+            ) : (
+              <Box sx={{ maxWidth: 200 }}>
+                <TextField
+                  onChange={handleChange}
+                  label="Filled"
+                  variant="filled"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={(e) => {
+                            e.stopPropagation(); // event yayılmasını engellemessek card content onclick de çalışacaktır.
+                            setIsCreateListOpen(false);
+                          }}
+                          edge="end"
+                          color="primary"
+                        >
+                          <ClearIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <Button
+                  variant="contained"
+                  onClick={handleAddList}
+                  disabled={btnDisabled}
+                >
+                  Add
+                </Button>
+              </Box>
+            )}
+          </CardContent>
+        </Card>
+      </DragDropContext>
     </List>
   );
 };
