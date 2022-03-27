@@ -21,7 +21,7 @@ export interface Card {
   id: number;
   title: string;
   description?: any;
-  order?: any;
+  order?: number;
   duedate?: any;
   createdAt: Date;
   updatedAt: Date;

@@ -10,17 +10,27 @@ import ListItemComp from "./ListItemComp";
 import ClearIcon from "@mui/icons-material/Clear";
 import { Box, InputAdornment, ListItem, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
-import { createList, fetchBoardById } from "../../features/boardSlice";
-import { DragDropContext } from "react-beautiful-dnd";
+import {
+  createList,
+  fetchBoardById,
+  updateCard,
+} from "../../features/boardSlice";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
 const ListsSection = () => {
   const [isCreateListOpen, setIsCreateListOpen] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [listTitle, setListTitle] = useState("");
 
+  const initObject = {
+    order: -1,
+  };
+
+  const [formData, setFormData] = useState(initObject);
+
   //dnd için stateler
-  const [sourceList, setSourceList] = useState<any>([]);
-  const [destList, setDestList] = useState<any>([]);
+  const [sourceListCards, setSourceListCards] = useState<any>([]);
+  const [destListCards, setDestListCards] = useState<any>([]);
 
   const currentBoard = useAppSelector((state) => state.boards.currentBoard); //board üzerinde bütün bilgiler mevcut(lists,cards vb.)
   const dispatch = useAppDispatch();
@@ -55,7 +65,11 @@ const ListsSection = () => {
   function handleOnDragEnd(result: any) {
     console.log(result);
     if (!result.destination) return;
-    const { source, destination } = result;
+    const { source, destination, type } = result;
+
+    if (type === "list") {
+      return;
+    }
 
     const sourceList = currentBoard.lists.find(
       (item: any) => item.id == source.droppableId
@@ -70,36 +84,56 @@ const ListsSection = () => {
       const destItems = [...destList.cards];
       const [reorderedItem] = sourceItems.splice(result.source.index, 1);
       destItems.splice(result.destination.index, 0, reorderedItem);
-      setSourceList(destItems);
     } else {
       //aynı liste ise
-
       const items = [...sourceList.cards];
 
       const [reorderedItem] = items.splice(result.source.index, 1);
-      console.log("after slice = ", items);
+
       items.splice(result.destination.index, 0, reorderedItem);
-      console.log("after total = ", items);
-      setSourceList(items);
+
+      items.forEach((newCard, index) => {
+      // setFormData({ ...formData, order: index });
+        console.log(index);
+        
+         updateCard(newCard.id,{order: index})
+      });
+
+      dispatch(fetchBoardById(currentBoard.id)).then(() =>
+        console.log(" update card progress complate")
+      );
     }
   }
 
   return (
-    <List
-      className="lists-section-list"
-      sx={{ display: "flex", gap: 5, m: 2, alignItems: "start" }}
-    >
-      {/* Flex olarak gelecekler */}
-      <DragDropContext onDragEnd={handleOnDragEnd}>
-        {currentBoard.lists &&
-          currentBoard.lists.map(
-            (
-              list: any //varsa döndür
-            ) => <ListItemComp key={list.id} list={list} />
+    <DragDropContext onDragEnd={handleOnDragEnd}>
+      <Box sx={{ display: "flex", alignItems: "start" }}>
+        <Droppable
+          droppableId={String(currentBoard.id)}
+          type="list"
+          direction="horizontal"
+        >
+          {(provided) => (
+            <List
+              {...provided.droppableProps}
+              ref={provided.innerRef}
+              className="lists-section-list"
+              sx={{ display: "flex", gap: 5, m: 2, alignItems: "start" }}
+            >
+              {/* Flex olarak gelecekler */}
+
+              {currentBoard.lists &&
+                currentBoard.lists.map((list: any, index: any) => (
+                  <ListItemComp key={list.id} list={list} idx={index} />
+                ))}
+
+              {provided.placeholder}
+            </List>
           )}
+        </Droppable>
 
         {/* Create a list card / card üstüne tıklama verince içindeki butana tıklayamıyorum*/}
-        <Card sx={{ minWidth: 235, height: 110 }}>
+        <Card sx={{ minWidth: 235, height: 110, mt: 3 }}>
           <CardContent onClick={handleCreateList}>
             {!isCreateListOpen ? (
               <Box
@@ -138,6 +172,7 @@ const ListsSection = () => {
                 />
                 <Button
                   variant="contained"
+                  
                   onClick={handleAddList}
                   disabled={btnDisabled}
                 >
@@ -147,8 +182,8 @@ const ListsSection = () => {
             )}
           </CardContent>
         </Card>
-      </DragDropContext>
-    </List>
+      </Box>
+    </DragDropContext>
   );
 };
 

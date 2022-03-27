@@ -26,7 +26,7 @@ import { useAppDispatch, useAppSelector } from "../../Store/store";
 import CardListItem from "./CardListItem";
 import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 
-const ListItemComp = ({ list }: any) => {
+const ListItemComp = ({ list, idx }: any) => {
   //for edit createcard widget
   const [isCreateCardOpen, setIsCreateCardOpen] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
@@ -81,116 +81,125 @@ const ListItemComp = ({ list }: any) => {
     setBtnDisabled(!value);
     setCardTitle(value);
   };
-
+  //
   //not - ListItem bir carddan oluşur ve içerisinde card listesi barındırır
   return (
-    <Card sx={{ width: 275 }}>
-      <CardHeader
-        action={
-          <IconButton
-            id="basic-button"
-            aria-controls={open ? "basic-menu" : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? "true" : undefined}
-            onClick={handleClick}
-          >
-            <MoreVertIcon />
-          </IconButton>
-        }
-        title={
-          isEditModeOpen ? (
-            <EditModeText
-              listId={list.id}
-              setisEditModeOpen={setisEditModeOpen}
-            />
-          ) : (
-            <p onClick={() => setisEditModeOpen(true)}>{list.title}</p>
-          )
-        }
-      />
-
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        {/*@todo - Bu fonksiyonların eventleri eklenecek  */}
-        <MenuItem onClick={handleClickRemoveList}>Remove List</MenuItem>
-        <MenuItem onClick={handleClickRenameList}>Rename List</MenuItem>
-      </Menu>
-
-      <CardContent>
-        {/* Burada Card listeleri olacak her Liste İteminin map işlemi olacak cardlar için */}
-
-        <Droppable droppableId={list.id.toString()}>
-          {(provided) => (
-            <List {...provided.droppableProps} ref={provided.innerRef}>
-              {list.cards.map((card: any, index: any) => (
-                <Draggable
-                  key={card.id}
-                  draggableId={card.id.toString()}
-                  index={index}
-                >
-                  {(provided) => (
-                    <Box
-                      {...provided.draggableProps}
-                      {...provided.dragHandleProps}
-                      ref={provided.innerRef}
-                    >
-                      <CardListItem card={card} />
-                    </Box>
-                  )}
-                </Draggable>
-              ))}
-              {provided.placeholder}
-            </List>
-          )}
-        </Droppable>
-      </CardContent>
-      {/* isCreateCardOpen state değerine göre render edilecek */}
-
-      {!isCreateCardOpen ? (
-        <Button onClick={handleOpenAddCard} fullWidth>
-          <AddIcon /> Add Chart
-        </Button>
-      ) : (
-        <React.Fragment>
-          <TextField
-            fullWidth
-            id="filled-basic"
-            onChange={handleChange}
-            label="Filled"
-            variant="filled"
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    onClick={() => {
-                      setIsCreateCardOpen(false);
-                    }}
-                    edge="end"
-                    color="primary"
-                  >
-                    <ClearIcon />
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
+    <Draggable key={list.id} draggableId={list.id.toString()} index={idx}>
+      {(provided) => (
+        <Card
+          sx={{ width: 275 }}
+          {...provided.draggableProps}
+          {...provided.dragHandleProps}
+          ref={provided.innerRef}
+        >
+          <CardHeader
+            action={
+              <IconButton
+                id="basic-button"
+                aria-controls={open ? "basic-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={open ? "true" : undefined}
+                onClick={handleClick}
+              >
+                <MoreVertIcon />
+              </IconButton>
+            }
+            title={
+              isEditModeOpen ? (
+                <EditModeText
+                  listId={list.id}
+                  setisEditModeOpen={setisEditModeOpen}
+                />
+              ) : (
+                <p onClick={() => setisEditModeOpen(true)}>{list.title}</p>
+              )
+            }
           />
-          <Button
-            variant="contained"
-            onClick={handleAddCard}
-            disabled={btnDisabled}
+
+          <Menu
+            id="basic-menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+            MenuListProps={{
+              "aria-labelledby": "basic-button",
+            }}
           >
-            Add
-          </Button>
-        </React.Fragment>
+            {/*@todo - Bu fonksiyonların eventleri eklenecek  */}
+            <MenuItem onClick={handleClickRemoveList}>Remove List</MenuItem>
+            <MenuItem onClick={handleClickRenameList}>Rename List</MenuItem>
+          </Menu>
+
+          <CardContent>
+            {/* Burada Card listeleri olacak her Liste İteminin map işlemi olacak cardlar için */}
+
+            <Droppable droppableId={list.id.toString()}>
+              {(provided) => (
+                <List {...provided.droppableProps} ref={provided.innerRef}>
+                  {list.cards.map((card: any, index: any) => (
+                    <Draggable
+                      key={card.id}
+                      draggableId={card.id.toString()}
+                      index={index}
+                    >
+                      {(provided) => (
+                        <Box
+                          {...provided.draggableProps}
+                          {...provided.dragHandleProps}
+                          ref={provided.innerRef}
+                        >
+                          <CardListItem card={card} />
+                        </Box>
+                      )}
+                    </Draggable>
+                  ))}
+                  {provided.placeholder}
+                </List>
+              )}
+            </Droppable>
+          </CardContent>
+          {/* isCreateCardOpen state değerine göre render edilecek */}
+
+          {!isCreateCardOpen ? (
+            <Button onClick={handleOpenAddCard} fullWidth>
+              <AddIcon /> Add Chart
+            </Button>
+          ) : (
+            <React.Fragment>
+              <TextField
+                fullWidth
+                id="filled-basic"
+                onChange={handleChange}
+                label="Filled"
+                variant="filled"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        onClick={() => {
+                          setIsCreateCardOpen(false);
+                        }}
+                        edge="end"
+                        color="primary"
+                      >
+                        <ClearIcon />
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+              />
+              <Button
+                variant="contained"
+                onClick={handleAddCard}
+                disabled={btnDisabled}
+              >
+                Add
+              </Button>
+            </React.Fragment>
+          )}
+        </Card>
       )}
-    </Card>
+    </Draggable>
   );
 };
 
