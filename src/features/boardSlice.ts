@@ -97,8 +97,8 @@ export const fetchListsData = async () => {
 
 //card functions
 
-export const createCard = async (title: string, listId: number) => {
-  const response = await card.create({title,listId});
+export const createCard = async (title: string, listId: number,order: number) => {
+  const response = await card.create({title,listId,order});
   return response.data;
 };
 

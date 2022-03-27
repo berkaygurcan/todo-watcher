@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import List from "@mui/material/List";
@@ -21,16 +21,6 @@ const ListsSection = () => {
   const [isCreateListOpen, setIsCreateListOpen] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [listTitle, setListTitle] = useState("");
-
-  const initObject = {
-    order: -1,
-  };
-
-  const [formData, setFormData] = useState(initObject);
-
-  //dnd için stateler
-  const [sourceListCards, setSourceListCards] = useState<any>([]);
-  const [destListCards, setDestListCards] = useState<any>([]);
 
   const currentBoard = useAppSelector((state) => state.boards.currentBoard); //board üzerinde bütün bilgiler mevcut(lists,cards vb.)
   const dispatch = useAppDispatch();
@@ -63,7 +53,7 @@ const ListsSection = () => {
   };
 
   function handleOnDragEnd(result: any) {
-    console.log(result);
+      console.log(result);
     if (!result.destination) return;
     const { source, destination, type } = result;
 
@@ -72,32 +62,35 @@ const ListsSection = () => {
     }
 
     const sourceList = currentBoard.lists.find(
-      (item: any) => item.id == source.droppableId
+      (list: any) => list.id == source.droppableId
     );
+    
     const destList = currentBoard.lists.find(
-      (item: any) => item.id == destination.droppableId
+      (list: any) => list.id == destination.droppableId
     );
-
+    
     if (source.droppableId !== destination.droppableId) {
       //farklı liste ise
+      console.log("farklı liste işlemi")
       const sourceItems = [...sourceList.cards];
       const destItems = [...destList.cards];
       const [reorderedItem] = sourceItems.splice(result.source.index, 1);
       destItems.splice(result.destination.index, 0, reorderedItem);
-    } else {
-      //aynı liste ise
+      
+    } else if (source.droppableId === destination.droppableId) {//aynı liste ise
+
+      console.log("aynı liste işlemi")
+      //işlem
       const items = [...sourceList.cards];
-
       const [reorderedItem] = items.splice(result.source.index, 1);
-
       items.splice(result.destination.index, 0, reorderedItem);
+      //işlem sonucu
 
       items.forEach((newCard, index) => {
-      // setFormData({ ...formData, order: index });
-        console.log(index);
-        
-         updateCard(newCard.id,{order: index})
+        updateCard(newCard.id,{order: index})
       });
+
+      console.log(items)
 
       dispatch(fetchBoardById(currentBoard.id)).then(() =>
         console.log(" update card progress complate")
@@ -172,7 +165,6 @@ const ListsSection = () => {
                 />
                 <Button
                   variant="contained"
-                  
                   onClick={handleAddList}
                   disabled={btnDisabled}
                 >

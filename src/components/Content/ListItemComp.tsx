@@ -67,7 +67,7 @@ const ListItemComp = ({ list, idx }: any) => {
   const handleAddCard = () => {
     //card işlemi yapılıcak ve istek atılıcak
     //state güncellenecek böylece sayfa tekrar oluşturulunca en altta card ekle ve content kısmında cardlarımız görünücek
-    createCard(cardTitle, list.id).then(() =>
+    createCard(cardTitle, list.id, list.cards.length).then(() =>
       dispatch(fetchBoardById(currentBoard.id))
     );
     setIsCreateCardOpen(false);
@@ -81,7 +81,15 @@ const ListItemComp = ({ list, idx }: any) => {
     setBtnDisabled(!value);
     setCardTitle(value);
   };
-  //
+  //cardları ordera göre sortlamamız gerekli
+
+  const arrayForSort = [...list.cards];
+  const newOrderedCards = arrayForSort.sort(
+    (a: any, b: any) => a.order - b.order
+  );
+
+  const newList = { ...list, cards: newOrderedCards };
+ 
   //not - ListItem bir carddan oluşur ve içerisinde card listesi barındırır
   return (
     <Draggable key={list.id} draggableId={list.id.toString()} index={idx}>
@@ -136,7 +144,7 @@ const ListItemComp = ({ list, idx }: any) => {
             <Droppable droppableId={list.id.toString()}>
               {(provided) => (
                 <List {...provided.droppableProps} ref={provided.innerRef}>
-                  {list.cards.map((card: any, index: any) => (
+                  {newList.cards.map((card: any, index: any) => (
                     <Draggable
                       key={card.id}
                       draggableId={card.id.toString()}
