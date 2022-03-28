@@ -62,7 +62,7 @@ export default function EditCardItemModal({ currentCard , handleClose , open }: 
 
   const handleUpdate = () => {
     if(!formData.duedate) {
-      setFormData((prev: any) => ({ ...prev, duedate: new Date().toISOString().slice(0, 10) })); //eğer tarih girilmez ise
+      setFormData((prev: any) => ({ ...prev, duedate: new Date().toISOString().slice(0, 10) })); 
     }
     updateCard(currentCard.id, formData).then(() =>
       dispatch(fetchBoardById(currentBoard.id)).then(() => {

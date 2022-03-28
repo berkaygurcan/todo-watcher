@@ -8,7 +8,13 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import ListItemComp from "./ListItemComp";
 import ClearIcon from "@mui/icons-material/Clear";
-import { Box, ClickAwayListener, InputAdornment, ListItem, Typography } from "@mui/material";
+import {
+  Box,
+  ClickAwayListener,
+  InputAdornment,
+  ListItem,
+  Typography,
+} from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
 import {
   createList,
@@ -55,7 +61,7 @@ const ListsSection = () => {
   };
 
   async function handleOnDragEnd(result: any) {
-    console.log(result);
+    //  console.log(result);
     if (!result.destination) return;
     const { source, destination, type } = result;
 
@@ -67,6 +73,8 @@ const ListsSection = () => {
       (list: any) => list.id == source.droppableId
     );
 
+    console.log(sourceList.cards);
+
     const destList = currentBoard.lists.find(
       (list: any) => list.id == destination.droppableId
     );
@@ -74,8 +82,12 @@ const ListsSection = () => {
     if (type === "card" && source.droppableId !== destination.droppableId) {
       //farklı liste ise
       console.log("farklı liste işlemi");
-      const sourceItems = [...sourceList.cards];
-      const destItems = [...destList.cards];
+      const sourceItems = [...sourceList.cards].sort(
+        (a: any, b: any) => a.order - b.order
+      );
+      const destItems = [...destList.cards].sort(
+        (a: any, b: any) => a.order - b.order
+      );
       const [reorderedItem] = sourceItems.splice(result.source.index, 1);
       destItems.splice(result.destination.index, 0, reorderedItem);
     } else if (
@@ -84,12 +96,14 @@ const ListsSection = () => {
     ) {
       //aynı liste ise
       console.log("aynı liste işlemi");
-      //işlem
-      const items = [...sourceList.cards];
+
+      const items = [...sourceList.cards].sort(
+        (a: any, b: any) => a.order - b.order
+      );
+
       const [reorderedItem] = items.splice(result.source.index, 1);
-
+      console.log("silinen item", reorderedItem);
       items.splice(result.destination.index, 0, reorderedItem);
-
       //işlem sonucu
 
       items.forEach((newCard: any, index: any) => {
@@ -97,7 +111,7 @@ const ListsSection = () => {
         updateCard(newCard.id, { order: index });
       });
 
-      await dispatch(fetchBoardById(currentBoard.id)).then(() =>
+      dispatch(fetchBoardById(currentBoard.id)).then(() =>
         console.log(" update card progress complate")
       );
     }

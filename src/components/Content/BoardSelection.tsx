@@ -58,7 +58,7 @@ const BoardSelection = () => {
         <Card
           onClick={() => {
             //create board
-            createBoard().then((data) => navigate(`/boardcontent/${data.id}`)); //bidaha niye async await gibi oldu?
+            createBoard().then((data) => navigate(`/boardcontent/${data.id}`))//bidaha niye async await gibi oldu?
           }}
           sx={{
             display: "flex",

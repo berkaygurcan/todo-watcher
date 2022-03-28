@@ -83,14 +83,14 @@ const ListItemComp = ({ list, idx }: any) => {
     setCardTitle(value);
   };
   //cardları ordera göre sortlamamız gerekli
-  console.log(list.cards);
+  //console.log(list.cards)
   const arrayForSort = [...list.cards];
   const newOrderedCards = arrayForSort.sort(
     (a: any, b: any) => a.order - b.order
   );
 
   const newList = { ...list, cards: newOrderedCards };
-
+  console.log(newList)
   //not - ListItem bir carddan oluşur ve içerisinde card listesi barındırır
   return (
     <Draggable key={list.id} draggableId={list.id.toString()} index={idx}>
