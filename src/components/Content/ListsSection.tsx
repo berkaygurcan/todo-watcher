@@ -17,7 +17,9 @@ import {
 } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
 import {
+  createCard,
   createList,
+  deleteCard,
   fetchBoardById,
   updateCard,
 } from "../../features/boardSlice";
@@ -73,15 +75,13 @@ const ListsSection = () => {
       (list: any) => list.id == source.droppableId
     );
 
-    console.log(sourceList.cards);
-
     const destList = currentBoard.lists.find(
       (list: any) => list.id == destination.droppableId
     );
 
     if (type === "card" && source.droppableId !== destination.droppableId) {
       //farklı liste ise
-      console.log("farklı liste işlemi");
+
       const sourceItems = [...sourceList.cards].sort(
         (a: any, b: any) => a.order - b.order
       );
@@ -89,7 +89,25 @@ const ListsSection = () => {
         (a: any, b: any) => a.order - b.order
       );
       const [reorderedItem] = sourceItems.splice(result.source.index, 1);
+      //ekstradan listeye silmek gerekli ve  ekstradan listeye eklemek
+
       destItems.splice(result.destination.index, 0, reorderedItem);
+      
+      updateCard(reorderedItem.id,{listId: destList.id})
+    
+      sourceItems.forEach((newCard: any, index: any) => {
+        updateCard(newCard.id, { order: index }).then(() =>
+          dispatch(fetchBoardById(currentBoard.id))
+        );
+      });
+      console.log(destItems);
+
+      destItems.forEach((newCard: any, index: any) => {
+        newCard.id &&
+          updateCard(newCard.id, { order: index }).then(() =>
+            dispatch(fetchBoardById(currentBoard.id))
+          );
+      });
     } else if (
       type === "card" &&
       source.droppableId === destination.droppableId
@@ -108,12 +126,10 @@ const ListsSection = () => {
 
       items.forEach((newCard: any, index: any) => {
         console.log(`${newCard.title} ${index}`);
-        updateCard(newCard.id, { order: index });
+        updateCard(newCard.id, { order: index }).then(() =>
+          dispatch(fetchBoardById(currentBoard.id))
+        );
       });
-
-      dispatch(fetchBoardById(currentBoard.id)).then(() =>
-        console.log(" update card progress complate")
-      );
     }
   }
 
