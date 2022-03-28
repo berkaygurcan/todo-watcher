@@ -8,6 +8,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import {
   Box,
   Button,
+  ClickAwayListener,
   InputAdornment,
   List,
   Menu,
@@ -82,14 +83,14 @@ const ListItemComp = ({ list, idx }: any) => {
     setCardTitle(value);
   };
   //cardları ordera göre sortlamamız gerekli
-
+  console.log(list.cards);
   const arrayForSort = [...list.cards];
   const newOrderedCards = arrayForSort.sort(
     (a: any, b: any) => a.order - b.order
   );
 
   const newList = { ...list, cards: newOrderedCards };
- 
+
   //not - ListItem bir carddan oluşur ve içerisinde card listesi barındırır
   return (
     <Draggable key={list.id} draggableId={list.id.toString()} index={idx}>
@@ -114,10 +115,14 @@ const ListItemComp = ({ list, idx }: any) => {
             }
             title={
               isEditModeOpen ? (
-                <EditModeText
-                  listId={list.id}
-                  setisEditModeOpen={setisEditModeOpen}
-                />
+                <ClickAwayListener onClickAway={() => setisEditModeOpen(false)}>
+                  <div>
+                    <EditModeText
+                      listId={list.id}
+                      setisEditModeOpen={setisEditModeOpen}
+                    />
+                  </div>
+                </ClickAwayListener>
               ) : (
                 <p onClick={() => setisEditModeOpen(true)}>{list.title}</p>
               )
@@ -141,7 +146,11 @@ const ListItemComp = ({ list, idx }: any) => {
           <CardContent>
             {/* Burada Card listeleri olacak her Liste İteminin map işlemi olacak cardlar için */}
 
-            <Droppable droppableId={list.id.toString()}>
+            <Droppable
+              type="card"
+              direction="vertical"
+              droppableId={list.id.toString()}
+            >
               {(provided) => (
                 <List {...provided.droppableProps} ref={provided.innerRef}>
                   {newList.cards.map((card: any, index: any) => (
@@ -174,35 +183,39 @@ const ListItemComp = ({ list, idx }: any) => {
             </Button>
           ) : (
             <React.Fragment>
-              <TextField
-                fullWidth
-                id="filled-basic"
-                onChange={handleChange}
-                label="Filled"
-                variant="filled"
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={() => {
-                          setIsCreateCardOpen(false);
-                        }}
-                        edge="end"
-                        color="primary"
-                      >
-                        <ClearIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-              <Button
-                variant="contained"
-                onClick={handleAddCard}
-                disabled={btnDisabled}
-              >
-                Add
-              </Button>
+              <ClickAwayListener onClickAway={() => setIsCreateCardOpen(false)}>
+                <div>
+                <TextField
+                  fullWidth
+                  id="filled-basic"
+                  onChange={handleChange}
+                  label="Filled"
+                  variant="filled"
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={() => {
+                            setIsCreateCardOpen(false);
+                          }}
+                          edge="end"
+                          color="primary"
+                        >
+                          <ClearIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+                <Button
+                  variant="contained"
+                  onClick={handleAddCard}
+                  disabled={btnDisabled}
+                >
+                  Add
+                </Button>
+                </div>
+              </ClickAwayListener>
             </React.Fragment>
           )}
         </Card>

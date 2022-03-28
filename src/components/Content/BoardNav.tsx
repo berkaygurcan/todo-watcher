@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import {
   AppBar,
   Card,
+  ClickAwayListener,
   IconButton,
   InputAdornment,
   Toolbar,
@@ -65,28 +66,30 @@ const BoardNav = () => {
         <div />
         <Box sx={{ mr: 5 }}>
           {isEditModeOpen ? (
-            <Card>
-              <TextField
-                id="standard-basic"
-                placeholder="add info"
-                color="warning"
-                onChange={handleChange}
-                InputProps={{
-                  endAdornment: (
-                    <InputAdornment position="end">
-                      <IconButton
-                        onClick={handleSave}
-                        edge="end"
-                        title="Kaydet"
-                        aria-label="delete"
-                      >
-                        <SaveIcon />
-                      </IconButton>
-                    </InputAdornment>
-                  ),
-                }}
-              />
-            </Card>
+            <ClickAwayListener onClickAway={() => setisEditModeOpen(false)}>
+              <Card>
+                <TextField
+                  id="standard-basic"
+                  placeholder="add info"
+                  color="warning"
+                  onChange={handleChange}
+                  InputProps={{
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          onClick={handleSave}
+                          edge="end"
+                          title="Kaydet"
+                          aria-label="delete"
+                        >
+                          <SaveIcon />
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  }}
+                />
+              </Card>
+            </ClickAwayListener>
           ) : (
             <h2
               style={{ color: "white" }}

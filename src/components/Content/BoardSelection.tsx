@@ -48,7 +48,7 @@ const BoardSelection = () => {
         Todo Watcher App
       </Typography>
 
-      <List sx={{ display: "flex", gap: 5 }}>
+      <List sx={{ display: "flex", gap: 5, flexWrap: "wrap", maxWidth: "1000px" }}>
         
         {boards.value.map((board) => (
           <BoardSelectionListItem key = {board.id} board={board} />

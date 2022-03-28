@@ -8,7 +8,7 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import ListItemComp from "./ListItemComp";
 import ClearIcon from "@mui/icons-material/Clear";
-import { Box, InputAdornment, ListItem, Typography } from "@mui/material";
+import { Box, ClickAwayListener, InputAdornment, ListItem, Typography } from "@mui/material";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
 import {
   createList,
@@ -21,6 +21,8 @@ const ListsSection = () => {
   const [isCreateListOpen, setIsCreateListOpen] = useState(false);
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [listTitle, setListTitle] = useState("");
+
+  const [dndCards, setDndCards] = useState<any>([]);
 
   const currentBoard = useAppSelector((state) => state.boards.currentBoard); //board üzerinde bütün bilgiler mevcut(lists,cards vb.)
   const dispatch = useAppDispatch();
@@ -52,8 +54,8 @@ const ListsSection = () => {
     setListTitle(value);
   };
 
-  function handleOnDragEnd(result: any) {
-      console.log(result);
+  async function handleOnDragEnd(result: any) {
+    console.log(result);
     if (!result.destination) return;
     const { source, destination, type } = result;
 
@@ -64,35 +66,38 @@ const ListsSection = () => {
     const sourceList = currentBoard.lists.find(
       (list: any) => list.id == source.droppableId
     );
-    
+
     const destList = currentBoard.lists.find(
       (list: any) => list.id == destination.droppableId
     );
-    
-    if (source.droppableId !== destination.droppableId) {
+
+    if (type === "card" && source.droppableId !== destination.droppableId) {
       //farklı liste ise
-      console.log("farklı liste işlemi")
+      console.log("farklı liste işlemi");
       const sourceItems = [...sourceList.cards];
       const destItems = [...destList.cards];
       const [reorderedItem] = sourceItems.splice(result.source.index, 1);
       destItems.splice(result.destination.index, 0, reorderedItem);
-      
-    } else if (source.droppableId === destination.droppableId) {//aynı liste ise
-
-      console.log("aynı liste işlemi")
+    } else if (
+      type === "card" &&
+      source.droppableId === destination.droppableId
+    ) {
+      //aynı liste ise
+      console.log("aynı liste işlemi");
       //işlem
       const items = [...sourceList.cards];
       const [reorderedItem] = items.splice(result.source.index, 1);
+
       items.splice(result.destination.index, 0, reorderedItem);
+
       //işlem sonucu
 
-      items.forEach((newCard, index) => {
-        updateCard(newCard.id,{order: index})
+      items.forEach((newCard: any, index: any) => {
+        console.log(`${newCard.title} ${index}`);
+        updateCard(newCard.id, { order: index });
       });
 
-      console.log(items)
-
-      dispatch(fetchBoardById(currentBoard.id)).then(() =>
+      await dispatch(fetchBoardById(currentBoard.id)).then(() =>
         console.log(" update card progress complate")
       );
     }
@@ -141,36 +146,38 @@ const ListsSection = () => {
                 <Typography gutterBottom>Add a list</Typography>
               </Box>
             ) : (
-              <Box sx={{ maxWidth: 200 }}>
-                <TextField
-                  onChange={handleChange}
-                  label="Filled"
-                  variant="filled"
-                  InputProps={{
-                    endAdornment: (
-                      <InputAdornment position="end">
-                        <IconButton
-                          onClick={(e) => {
-                            e.stopPropagation(); // event yayılmasını engellemessek card content onclick de çalışacaktır.
-                            setIsCreateListOpen(false);
-                          }}
-                          edge="end"
-                          color="primary"
-                        >
-                          <ClearIcon />
-                        </IconButton>
-                      </InputAdornment>
-                    ),
-                  }}
-                />
-                <Button
-                  variant="contained"
-                  onClick={handleAddList}
-                  disabled={btnDisabled}
-                >
-                  Add
-                </Button>
-              </Box>
+              <ClickAwayListener onClickAway={() => setIsCreateListOpen(false)}>
+                <Box sx={{ maxWidth: 200 }}>
+                  <TextField
+                    onChange={handleChange}
+                    label="Filled"
+                    variant="filled"
+                    InputProps={{
+                      endAdornment: (
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={(e) => {
+                              e.stopPropagation(); // event yayılmasını engellemessek card content onclick de çalışacaktır.
+                              setIsCreateListOpen(false);
+                            }}
+                            edge="end"
+                            color="primary"
+                          >
+                            <ClearIcon />
+                          </IconButton>
+                        </InputAdornment>
+                      ),
+                    }}
+                  />
+                  <Button
+                    variant="contained"
+                    onClick={handleAddList}
+                    disabled={btnDisabled}
+                  >
+                    Add
+                  </Button>
+                </Box>
+              </ClickAwayListener>
             )}
           </CardContent>
         </Card>
