@@ -36,8 +36,8 @@ const BoardNav = () => {
   };
 
   const handleSave = () => {
-    dispatch(updateBoardById({ id: currentBoard.id, title: field }));
-    dispatch(fetchBoardById(currentBoard.id));
+    dispatch(updateBoardById({ id: currentBoard.id, title: field })).then(() => dispatch(fetchBoardById(currentBoard.id)))
+    
     setisEditModeOpen(false);
     setField("");
   };

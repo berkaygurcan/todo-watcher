@@ -22,6 +22,7 @@ import {
   deleteCard,
   fetchBoardById,
   updateCard,
+  updateList,
 } from "../../features/boardSlice";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 
@@ -30,10 +31,17 @@ const ListsSection = () => {
   const [btnDisabled, setBtnDisabled] = useState(true);
   const [listTitle, setListTitle] = useState("");
 
-  const [dndCards, setDndCards] = useState<any>([]);
-
   const currentBoard = useAppSelector((state) => state.boards.currentBoard); //board üzerinde bütün bilgiler mevcut(lists,cards vb.)
   const dispatch = useAppDispatch();
+
+  //listelerimizi sort edelim
+  
+  const sortedListsArray = [...currentBoard.lists]
+  const newOrderedLists = sortedListsArray.sort(
+    (a: any, b: any) => a.order - b.order
+  );
+
+  const sortedListForBoard = { ...currentBoard, lists: newOrderedLists };
 
   const handleCreateList = () => {
     setIsCreateListOpen(true);
@@ -43,7 +51,7 @@ const ListsSection = () => {
     //@todo - apiye istek atılıp liste eklenicek ve sayfa render edelicek mantıgıyla hareket ettim
     //state güncellenicek
     e.stopPropagation();
-    createList(listTitle, currentBoard.id).then(() =>
+    createList(listTitle, currentBoard.id,currentBoard.lists.length).then(() =>
       dispatch(fetchBoardById(currentBoard.id))
     );
 
@@ -67,10 +75,6 @@ const ListsSection = () => {
     if (!result.destination) return;
     const { source, destination, type } = result;
 
-    if (type === "list") {
-      return;
-    }
-
     const sourceList = currentBoard.lists.find(
       (list: any) => list.id == source.droppableId
     );
@@ -78,6 +82,24 @@ const ListsSection = () => {
     const destList = currentBoard.lists.find(
       (list: any) => list.id == destination.droppableId
     );
+
+    if (type === "list") {
+      
+      const items = [...sortedListForBoard.lists] // zaten sıralı
+
+      const [reorderedItem] = items.splice(result.source.index, 1);
+      console.log("silinen item", reorderedItem);
+      items.splice(result.destination.index, 0, reorderedItem);
+      //işlem sonucu
+
+      items.forEach((list: any, index: any) => {
+        console.log(`${list.title} ${index}`);
+        updateList(list.id, list.title,currentBoard.id,index).then(() =>
+          dispatch(fetchBoardById(currentBoard.id))
+        );
+      });
+      
+    }
 
     if (type === "card" && source.droppableId !== destination.droppableId) {
       //farklı liste ise
@@ -151,7 +173,7 @@ const ListsSection = () => {
               {/* Flex olarak gelecekler */}
 
               {currentBoard.lists &&
-                currentBoard.lists.map((list: any, index: any) => (
+                sortedListForBoard.lists.map((list: any, index: any) => (
                   <ListItemComp key={list.id} list={list} idx={index} />
                 ))}
 

@@ -90,7 +90,6 @@ const ListItemComp = ({ list, idx }: any) => {
   );
 
   const newList = { ...list, cards: newOrderedCards };
-  console.log(newList)
   //not - ListItem bir carddan oluşur ve içerisinde card listesi barındırır
   return (
     <Draggable key={list.id} draggableId={list.id.toString()} index={idx}>
@@ -119,6 +118,7 @@ const ListItemComp = ({ list, idx }: any) => {
                   <div>
                     <EditModeText
                       listId={list.id}
+                      order = {list.order}
                       setisEditModeOpen={setisEditModeOpen}
                     />
                   </div>

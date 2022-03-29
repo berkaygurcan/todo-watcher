@@ -69,13 +69,13 @@ export const createBoard = async () => {
 
 //list functions
 
-export const createList = async (title: string, boardId: number) => {
-  const response = await list.create({title,boardId});
+export const createList = async (title: string, boardId: number,order: number) => {
+  const response = await list.create({title,boardId,order});
   return response.data;
 };
 
-export const updateList = async (id: number,title: string, boardId: number) => {
-  const response = await list.update(id,{title,boardId});
+export const updateList = async (id: number,title: string, boardId: number,order: number) => {
+  const response = await list.update(id,{title,boardId,order});
   return response.data;
 };
 

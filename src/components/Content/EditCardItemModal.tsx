@@ -108,6 +108,7 @@ export default function EditCardItemModal({ currentCard , handleClose , open }: 
             onChange={handleChange}
             value={formData.description}
             variant="outlined"
+            sx={{mb:1}}
           />
 
           <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -121,7 +122,7 @@ export default function EditCardItemModal({ currentCard , handleClose , open }: 
             />
           </LocalizationProvider>
           
-          <Button variant="contained" onClick={() => handleUpdate()}>Test Update Button</Button>
+          <Button sx={{ml:3,mt:1}} variant="contained" onClick={() => handleUpdate()}>Test Update Button</Button>
 
           {/*@todo - Conditional rendering olucak label kısmı sıkıntılı oldugu için şimdi atladım */}
 

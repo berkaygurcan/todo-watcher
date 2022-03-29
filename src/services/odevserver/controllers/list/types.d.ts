@@ -11,4 +11,4 @@ export interface List {
   board: Board;
 }
 
-export type CreateListRequest = Pick<List, "title" | "boardId">
+export type CreateListRequest = Pick<List, "title" | "boardId" | "order">
