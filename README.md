@@ -1,3 +1,24 @@
+# Todo Watcher
+
+## About
+This project is a todo project that allows users to follow their work, edit and share their status.
+
+This project has been developed by communicating with data from a docker back-end structure. The current designer and developer of the project is Berkay Gürcan.
+
+
+## Details of Application
+The user can add a board, list the boards and see the information by entering it, add a list to the board. You can update the list, add a card to the list. From the card detail page, you can update the card, delete it, and add a label indicating the task and importance level of the card. it can also enable it to view its information.You can change the codes of the sites and also change the order of their lists with drag and drop
+
+It includes the following pages:
+- **Boards page**: User can view their board from here and add a new board
+- **Board Content page**: It is the detail page of the board. You can edit and display the list information and card information of the board in this page. You can delete the board or add a user to the board thanks to the icon on the right side of the navbar. 
+
+- **Login / Register page**: Pages with login processes
+  
+
+## Technologies Used
+Made with **React.js**, **TypeScript**, **Redux-toolkit**, **JavaScript**, **ES6**, **HTML 5**, and **CSS3**.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
