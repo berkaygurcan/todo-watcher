@@ -8,7 +8,12 @@ import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import { useNavigate } from "react-router-dom";
 import { Typography } from "@mui/material";
 
-import { createBoard, fetchBoardsData, fetchServiceLabels, set } from "../../features/boardSlice";
+import {
+  createBoard,
+  fetchBoardsData,
+  fetchServiceLabels,
+  set,
+} from "../../features/boardSlice";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
 
 const BoardSelection = () => {
@@ -23,9 +28,9 @@ const BoardSelection = () => {
 
   //service tarafından gelen labellar değişmeyecek ondan burada bir kere çeksek yeterli
   useEffect(() => {
+    
     dispatch(fetchServiceLabels());
   }, []);
-
 
   return (
     <Container
@@ -48,17 +53,19 @@ const BoardSelection = () => {
         Todo Watcher App
       </Typography>
 
-      <List sx={{ display: "flex", gap: 5, flexWrap: "wrap", maxWidth: "1000px" }}>
-        
+      <List
+        sx={{ display: "flex", gap: 5, flexWrap: "wrap", maxWidth: "1000px" }}
+      >
         {boards.value.map((board) => (
-          <BoardSelectionListItem key = {board.id} board={board} />
+          <BoardSelectionListItem key={board.id} board={board} />
         ))}
 
         {/* Board add card always in the list */}
         <Card
           onClick={() => {
             //create board
-            createBoard().then((data) => navigate(`/boardcontent/${data.id}`))//bidaha niye async await gibi oldu?
+            
+            createBoard().then((data:any) => navigate(`/boardcontent/${data.id}`));
           }}
           sx={{
             display: "flex",

@@ -16,7 +16,7 @@ const BoardContent = () => {
   const { id } = useParams();
 
   useEffect(() => {
-    dispatch(fetchBoardById(Number(id)));
+    dispatch(fetchBoardById(Number(id))).then(() => ("fetch çalıştı"))
   }, []);
 
   return (

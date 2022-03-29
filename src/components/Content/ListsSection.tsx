@@ -35,7 +35,7 @@ const ListsSection = () => {
   const dispatch = useAppDispatch();
 
   //listelerimizi sort edelim
-  
+  console.log(currentBoard)
   const sortedListsArray = [...currentBoard.lists]
   const newOrderedLists = sortedListsArray.sort(
     (a: any, b: any) => a.order - b.order

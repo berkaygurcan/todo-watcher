@@ -4,10 +4,18 @@ import Typography from "@mui/material/Typography";
 
 import InsertChartOutlinedIcon from "@mui/icons-material/InsertChartOutlined";
 import { useNavigate, useParams } from "react-router-dom";
+import { useAppDispatch } from "../../Store/store";
+import { fetchBoardById } from "../../features/boardSlice";
 
-const BoardSelectionListItem = ({board} : any) => {
+const BoardSelectionListItem = ({ board }: any) => {
   const navigate = useNavigate();
- 
+  const dispatch = useAppDispatch();
+
+  const handleOnClick = () => {
+    dispatch(fetchBoardById(Number(board.id))).then(() =>navigate(`/boardcontent/${board.id}`))
+    
+  }
+
   return (
     <Card
       sx={{
@@ -17,7 +25,7 @@ const BoardSelectionListItem = ({board} : any) => {
         width: 200,
         height: 150,
       }}
-      onClick={() => navigate(`/boardcontent/${board.id}`)}
+      onClick={handleOnClick}
     >
       <CardContent>
         <InsertChartOutlinedIcon style={{ fontSize: 50 }} />
