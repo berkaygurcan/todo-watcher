@@ -36,6 +36,7 @@ const Comments = ({ comments, cardId}: any) => {
     console.log(cardId)
     //istek atılıcak
     createComment(cardId, comment).then(() => dispatch(fetchBoardById(currentBoard.id)));
+    setComment("")
     setBtnDisabled(false);
   };
 

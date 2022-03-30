@@ -18,6 +18,10 @@ function App() {
         element={<Login onLogin={() => setIsLoggedIn(true)} />}
       />
       <Route
+        path="/"
+        element={<Login onLogin={() => setIsLoggedIn(true)} />}
+      />
+      <Route
         path="/register"
         element={<Register onRegister={() => setIsLoggedIn(true)} />}
       />

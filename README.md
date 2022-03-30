@@ -7,7 +7,7 @@ This project has been developed by communicating with data from a docker back-en
 
 
 ## Details of Application
-The user can add a board, list the boards and see the information by entering it, add a list to the board. You can update the list, add a card to the list. From the card detail page, you can update the card, delete it, and add a label indicating the task and importance level of the card. it can also enable it to view its information.You can change the codes of the sites and also change the order of their lists with drag and drop
+The user can add a board, list the boards and see the information by entering it, add a list to the board. You can update the list, add a card to the list. From the card detail page, you can update the card, delete it, and add a label indicating the task and importance level of the card. it can also enable it to view its information.Users can comment on cards.You can change the codes of the sites and also change the order of their lists with drag and drop
 
 It includes the following pages:
 - **Boards page**: User can view their board from here and add a new board
@@ -16,6 +16,8 @@ It includes the following pages:
 ![Board Content Image](images/boardContentPage.PNG)
 ![Board Content Detail Image 1](images/BoardContentDetail1.PNG)
 ![Board Content Detail Image 2](images/BoardContentDetail2.PNG)
+<img src="https://j.gifs.com/36rMoO.gif" />
+
 
 - **Login / Register page**: Pages with login processes
   
