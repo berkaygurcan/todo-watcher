@@ -13,7 +13,7 @@ It includes the following pages:
 - **Boards page**: User can view their board from here and add a new board
 ![Boards Image](images/boardsPage.PNG)
 - **Board Content page**: It is the detail page of the board. You can edit and display the list information and card information of the board in this page. You can delete the board or add a user to the board thanks to the icon on the right side of the navbar. 
-![Board Content Image](images/boardContentPage.PNG)
+![Board Content Image](images/BoardContentPage.PNG)
 ![Board Content Detail Image 1](images/BoardContentDetail1.PNG)
 ![Board Content Detail Image 2](images/BoardContentDetail2.PNG)
 <img src="https://j.gifs.com/36rMoO.gif" />
