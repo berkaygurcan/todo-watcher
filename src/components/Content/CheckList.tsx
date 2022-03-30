@@ -38,6 +38,8 @@ const CheckList = ({ checklist }: any) => {
   // menu section
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  const [btnDisabled, setBtnDisabled] = useState(true);
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -60,11 +62,11 @@ const CheckList = ({ checklist }: any) => {
   // end menu section
 
   const handleCreateCheckListItem = () => {
-    
     setTitle("");
     createChecklistItem(title, false, checklist.id).then(() =>
       dispatch(fetchBoardById(currentBoard.id))
     );
+    setBtnDisabled(true);
   };
   //başta progress bar setlensin diye
   useEffect(() => {
@@ -153,19 +155,25 @@ const CheckList = ({ checklist }: any) => {
             margin="dense"
             id="title"
             label="Add a task"
-            onChange={(e: any) => setTitle(e.target.value)}
+            onChange={(e: any) => {
+              setTitle(e.target.value);
+              setBtnDisabled(false);
+            }}
             type="text"
-            value = {title}
+            value={title}
             fullWidth
             variant="outlined"
           />
 
-          <IconButton edge="end" title="Delete" aria-label="delete">
-            <AddCircleOutlineIcon
-              onClick={handleCreateCheckListItem}
-              color="primary"
-              fontSize="large"
-            />
+          <IconButton
+            edge="end"
+            title="Delete"
+            onClick={handleCreateCheckListItem}
+            disabled={btnDisabled}
+            color="primary"
+            aria-label="delete"
+          >
+            <AddCircleOutlineIcon  fontSize="large" />
           </IconButton>
         </ListItem>
       </List>

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { useAppDispatch, useAppSelector } from "../../Store/store";
 import { fetchBoardById, updateList } from "../../features/boardSlice";
 
-const EditModeText = ({ listId,setisEditModeOpen,order }: any) => {
+const EditModeText = ({ listId, setisEditModeOpen, order }: any) => {
   //for title editing widget
 
   const [listTitle, setListTitle] = useState("");
@@ -16,12 +16,13 @@ const EditModeText = ({ listId,setisEditModeOpen,order }: any) => {
   const handleSave = (event: any) => {
     //@todo - api gelince buraya istek atılıcak (List title gönderilecek)
     event.stopPropagation();
-    updateList(listId, listTitle, currentBoard.id,order).then(() =>
-      dispatch(fetchBoardById(currentBoard.id))
-    );
-    setisEditModeOpen(false)
+    if (listTitle !== "") {
+      updateList(listId, listTitle, currentBoard.id, order).then(() =>
+        dispatch(fetchBoardById(currentBoard.id))
+      );
+    }
+    setisEditModeOpen(false);
     setListTitle("");
-    
   };
   return (
     <Card>
